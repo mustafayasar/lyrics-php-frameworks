@@ -1,7 +1,10 @@
 <?php
 namespace backend\controllers;
 
+use common\models\Singer;
+use common\models\Song;
 use Yii;
+use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
@@ -60,6 +63,8 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
+//        VarDumper::dump(Singer::find()->limit(100)->all(), 100, true);
+//        VarDumper::dump(Song::find()->limit(100)->asArray()->all(), 100, true);
         return $this->render('index');
     }
 
