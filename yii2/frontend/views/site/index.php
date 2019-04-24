@@ -1,53 +1,30 @@
 <?php
+use yii\helpers\Html;
+use yii\helpers\Url;
+use common\helpers\SiteHelper;
 
 /* @var $this yii\web\View */
+/* @var $songs common\models\Song[] */
 
 $this->title = 'My Yii Application';
 ?>
-<div class="site-index">
+<div class="col-lg-8 col-md-10 mx-auto">
+    <?php foreach ($songs as $song) { ?>
+        <div class="post-preview">
+            <?php $song_url = Url::to(['site/song-view', 'singer_slug' => $song->singer->slug, 'song_slug' => $song->slug]) ?>
 
-    <div class="jumbotron">
-        <h1>Congratulations!</h1>
+            <a href="<?= $song_url ?>" title="<?= $song->title ?> Lyrics - <?= $song->singer->name ?>">
+                <h2 class="post-title">
+                    <?= $song->title ?>
+                </h2>
+            </a>
+            <p>
+                <?= SiteHelper::getPreviewLyrics($song->lyrics) ?>
 
-        <p class="lead">You have successfully created your Yii-powered application.</p>
-
-        <p><a class="btn btn-lg btn-success" href="http://www.yiiframework.com">Get started with Yii</a></p>
-    </div>
-
-    <div class="body-content">
-
-        <div class="row">
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/doc/">Yii Documentation &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/forum/">Yii Forum &raquo;</a></p>
-            </div>
-            <div class="col-lg-4">
-                <h2>Heading</h2>
-
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-                    dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                    ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu
-                    fugiat nulla pariatur.</p>
-
-                <p><a class="btn btn-default" href="http://www.yiiframework.com/extensions/">Yii Extensions &raquo;</a></p>
-            </div>
+                <a class="more" href="<?= $song_url ?>" title="<?= $song->title ?> Lyrics - <?= $song->singer->name ?>">Read More <i class="fas fa-angle-double-right"></i></a>
+            </p>
+            <p class="post-meta">Posted on <?= SiteHelper::getPostedDate($song->created_at) ?></p>
         </div>
-
-    </div>
+        <hr>
+    <?php } ?>
 </div>

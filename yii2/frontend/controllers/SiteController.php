@@ -1,10 +1,15 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\ElasticItem;
+use common\models\Singer;
+use common\models\Song;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
 use yii\base\InvalidArgumentException;
+use yii\data\Pagination;
+use yii\helpers\VarDumper;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -23,47 +28,12 @@ class SiteController extends Controller
     /**
      * {@inheritdoc}
      */
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::className(),
-                'only' => ['logout', 'signup'],
-                'rules' => [
-                    [
-                        'actions' => ['signup'],
-                        'allow' => true,
-                        'roles' => ['?'],
-                    ],
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
-                ],
-            ],
-        ];
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function actions()
     {
         return [
             'error' => [
                 'class' => 'yii\web\ErrorAction',
-            ],
-            'captcha' => [
-                'class' => 'yii\captcha\CaptchaAction',
-                'fixedVerifyCode' => YII_ENV_TEST ? 'testme' : null,
-            ],
+            ]
         ];
     }
 
@@ -74,187 +44,189 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        return $this->render('index', [
+            'songs' => Song::getListWithCache(0, false, 'new', 6)
+        ]);
     }
 
     /**
-     * Logs in a user.
-     *
-     * @return mixed
+     * @param string $i
+     * @return string
      */
-    public function actionLogin()
+    public function actionSingers($i = 'hit')
     {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
+        $letters    = Yii::$app->params['letters'];
 
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+        if ($i == 'hit') {
+            $initial    = false;
+            $order      = 'hit';
+            $title      = 'Hit Singers';
+        } elseif (isset($letters[$i])) {
+            $initial    = $i;
+            $order      = 'name';
+            $title      = 'Singers Beginning with '.$letters[$i];
         } else {
-            $model->password = '';
-
-            return $this->render('login', [
-                'model' => $model,
-            ]);
+            return $this->render('error', ['message' => 'Not Found']);
         }
+
+        $pages  = new Pagination([
+            'totalCount'        => Singer::getListWithCache($initial, $order, 'get_count'),
+            'pageSize'          => 20,
+            'defaultPageSize'   => 20,
+            'forcePageParam'    => false,
+        ]);
+
+        $singers    = Singer::getListWithCache($initial, $order);
+
+        return $this->render('singers', [
+            'title'     => $title,
+            'letters'   => $letters,
+            'singers'   => $singers,
+            'pages'     => $pages,
+        ]);
     }
 
-    /**
-     * Logs out the current user.
-     *
-     * @return mixed
-     */
-    public function actionLogout()
+    public function actionSongs($i='top')
     {
-        Yii::$app->user->logout();
+        $letters    = Yii::$app->params['letters'];
 
-        return $this->goHome();
-    }
-
-    /**
-     * Displays contact page.
-     *
-     * @return mixed
-     */
-    public function actionContact()
-    {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail(Yii::$app->params['adminEmail'])) {
-                Yii::$app->session->setFlash('success', 'Thank you for contacting us. We will respond to you as soon as possible.');
-            } else {
-                Yii::$app->session->setFlash('error', 'There was an error sending your message.');
-            }
-
-            return $this->refresh();
+        if ($i == 'hit') {
+            $initial    = false;
+            $order      = 'hit';
+            $title      = 'Hit Songs';
+        } elseif (isset($letters[$i])) {
+            $initial    = $i;
+            $order      = 'name';
+            $title      = 'Songs Beginning with '.$letters[$i];
         } else {
-            return $this->render('contact', [
-                'model' => $model,
+            return $this->render('error', ['message' => 'Not Found']);
+        }
+
+        $pages  = new Pagination([
+            'totalCount'        => Song::getListWithCache(0, $initial, $order, 'get_count'),
+            'pageSize'          => 20,
+            'defaultPageSize'   => 20,
+            'forcePageParam'    => false,
+        ]);
+
+        $songs  = Song::getListWithCache(0, $initial, $order);
+
+        return $this->render('songs', [
+            'title'     => $title,
+            'letters'   => $letters,
+            'songs'     => $songs,
+            'pages'     => $pages,
+        ]);
+    }
+
+    /**
+     * Displays homepage.
+     *
+     * @return mixed
+     */
+    public function actionSingerSongs($singer_slug)
+    {
+        $singer = Singer::findOneBySlugWithCache($singer_slug);
+
+        if ($singer) {
+            $pages  = new Pagination([
+                'totalCount'        => Song::getListWithCache($singer->id, false, 'name', 'get_count'),
+                'pageSize'          => 20,
+                'defaultPageSize'   => 20,
+                'forcePageParam'    => false,
             ]);
-        }
-    }
 
-    /**
-     * Displays about page.
-     *
-     * @return mixed
-     */
-    public function actionAbout()
-    {
-        return $this->render('about');
-    }
+            $songs  = Song::getListWithCache($singer->id, false, 'name');
 
-    /**
-     * Signs user up.
-     *
-     * @return mixed
-     */
-    public function actionSignup()
-    {
-        $model = new SignupForm();
-        if ($model->load(Yii::$app->request->post()) && $model->signup()) {
-            Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
-            return $this->goHome();
-        }
+            $singer->hit    = $singer->hit + 1;
 
-        return $this->render('signup', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Requests password reset.
-     *
-     * @return mixed
-     */
-    public function actionRequestPasswordReset()
-    {
-        $model = new PasswordResetRequestForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail()) {
-                Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
-
-                return $this->goHome();
-            } else {
-                Yii::$app->session->setFlash('error', 'Sorry, we are unable to reset password for the provided email address.');
+            if (Yii::$app->session->get('last_page') != Yii::$app->request->getReferrer()) {
+                Singer::plusHit($singer->id);
             }
-        }
 
-        return $this->render('requestPasswordResetToken', [
-            'model' => $model,
-        ]);
+            return $this->render('singer-songs', [
+                'singer'    => $singer,
+                'songs'     => $songs,
+                'pages'     => $pages,
+            ]);
+
+        } else {
+            Yii::$app->response->statusCode = 404;
+
+            return $this->render('error', ['name' => 'Not Found']);
+        }
     }
 
     /**
-     * Resets password.
-     *
-     * @param string $token
-     * @return mixed
-     * @throws BadRequestHttpException
+     * @param $singer_slug
+     * @param $song_slug
+     * @return string
      */
-    public function actionResetPassword($token)
+    public function actionSongView($singer_slug, $song_slug)
     {
-        try {
-            $model = new ResetPasswordForm($token);
-        } catch (InvalidArgumentException $e) {
-            throw new BadRequestHttpException($e->getMessage());
-        }
+        $song   = Song::findOneBySlugsWithCache($singer_slug, $song_slug);
 
-        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
-            Yii::$app->session->setFlash('success', 'New password saved.');
+        if ($song) {
+            $song->hit    = $song->hit + 1;
 
-            return $this->goHome();
-        }
-
-        return $this->render('resetPassword', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Verify email address
-     *
-     * @param string $token
-     * @throws BadRequestHttpException
-     * @return yii\web\Response
-     */
-    public function actionVerifyEmail($token)
-    {
-        try {
-            $model = new VerifyEmailForm($token);
-        } catch (InvalidArgumentException $e) {
-            throw new BadRequestHttpException($e->getMessage());
-        }
-        if ($user = $model->verifyEmail()) {
-            if (Yii::$app->user->login($user)) {
-                Yii::$app->session->setFlash('success', 'Your email has been confirmed!');
-                return $this->goHome();
+            if (Yii::$app->session->get('last_page') != Yii::$app->request->getReferrer()) {
+                Song::plusHit($song->id);
+                Singer::plusHit($song->singer->id);
             }
-        }
 
-        Yii::$app->session->setFlash('error', 'Sorry, we are unable to verify your account with provided token.');
-        return $this->goHome();
+            return $this->render('song-view', [
+                'song'  => $song
+            ]);
+        } else {
+            Yii::$app->response->statusCode = 404;
+
+            return $this->render('error', ['name' => 'Not Found']);
+        }
     }
 
     /**
-     * Resend verification email
+     * Displays homepage.
      *
      * @return mixed
      */
-    public function actionResendVerificationEmail()
+    public function actionRandomSongView()
     {
-        $model = new ResendVerificationEmailForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail()) {
-                Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
-                return $this->goHome();
-            }
-            Yii::$app->session->setFlash('error', 'Sorry, we are unable to resend verification email for the provided email address.');
-        }
+        $song   = Song::getRandomSong();
 
-        return $this->render('resendVerificationEmail', [
-            'model' => $model
+        if ($song) {
+            $song->hit = $song->hit + 1;
+
+            if (Yii::$app->session->get('last_page') != Yii::$app->request->getReferrer()) {
+                Song::plusHit($song->id);
+                Singer::plusHit($song->singer->id);
+            }
+
+            return $this->render('song-view', [
+                'song'  => $song
+            ]);
+        } else {
+            Yii::$app->response->statusCode = 404;
+
+            return $this->render('error', ['name' => 'Not Found']);
+        }
+    }
+
+    public function actionSearch($q)
+    {
+        $result = ElasticItem::find()->query(["match" => ["title" => $q]])->limit(200)->all();
+
+        return $this->render('search', [
+            'q'         => $q,
+            'result'    => $result
         ]);
     }
+
+
+    public function afterAction($action, $result)
+    {
+        Yii::$app->session->set('last_page', Yii::$app->request->getReferrer());
+
+        return parent::afterAction($action, $result); // TODO: Change the autogenerated stub
+    }
+
 }

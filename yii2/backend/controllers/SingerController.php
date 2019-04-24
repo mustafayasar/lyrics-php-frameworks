@@ -71,30 +71,54 @@ class SingerController extends Controller
     {
         $model  = new Singer();
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['update', 'id' => $model->id]);
-        } else {
-            return $this->render('create', [
-                'model' => $model
-            ]);
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', 'The singer is created.');
+
+                return $this->redirect(['update', 'id' => $model->id]);
+            } else {
+                Yii::$app->session->setFlash('error', "The singer couldn't be created.");
+            }
         }
+
+        return $this->render('create', [
+            'model' => $model
+        ]);
     }
 
     public function actionUpdate($id)
     {
         $model  = Singer::findOne($id);
 
-        if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['update', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model' => $model
-            ]);
+        if ($model->load(Yii::$app->request->post())) {
+            if ($model->save()) {
+                Yii::$app->session->setFlash('success', 'The singer is updated.');
+
+                return $this->redirect(['update', 'id' => $model->id]);
+            } else {
+                Yii::$app->session->setFlash('error', "The singer couldn't be updated.");
+            }
         }
+
+        return $this->render('update', [
+            'model' => $model
+        ]);
     }
 
-    public function actionDelete()
+    public function actionDelete($id)
     {
+        $singer = Singer::findOne($id);
 
+        if ($singer->delete()) {
+            $singer_songs   = Song::findAll(['singer_id' => $singer->id]);
+
+            foreach ($singer_songs as $singer_song) {
+                $singer_song->delete();
+            }
+
+            Yii::$app->session->setFlash('success', 'The singer is deleted.');
+        }
+
+        return $this->redirect(Yii::$app->request->referrer);;
     }
 }

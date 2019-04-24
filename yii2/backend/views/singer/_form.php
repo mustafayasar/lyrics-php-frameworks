@@ -1,6 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use common\models\Singer;
 /* @var $this yii\web\View */
 /* @var $model common\models\Singer */
 /* @var $form yii\widgets\ActiveForm */
@@ -12,7 +13,14 @@ use yii\widgets\ActiveForm;
     <?php $form = ActiveForm::begin(); ?>
 
     <?= $form->field($model, 'name') ?>
-    <?= $form->field($model, 'slug') ?>
+
+    <?php if (!$model->isNewRecord) { ?>
+        <?= $form->field($model, 'slug') ?>
+        <?= $form->field($model, 'hit')->textInput(['readonly' => 'readonly']) ?>
+        <?= $form->field($model, 'status')->dropDownList(Singer::$statuses) ?>
+    <?php } else { ?>
+        <?= $form->field($model, 'slug')->hiddenInput()->label(false) ?>
+    <?php } ?>
 
     <div class="form-group">
         <?php

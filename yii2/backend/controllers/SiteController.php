@@ -1,8 +1,10 @@
 <?php
 namespace backend\controllers;
 
+use common\models\ElasticItem;
 use common\models\Singer;
 use common\models\Song;
+use yii\helpers\Url;
 use Yii;
 use yii\helpers\VarDumper;
 use yii\web\Controller;
@@ -29,7 +31,7 @@ class SiteController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index'],
+                        'actions' => ['logout', 'index', 'mysql-to-elastic'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -63,9 +65,38 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-//        VarDumper::dump(Singer::find()->limit(100)->all(), 100, true);
-//        VarDumper::dump(Song::find()->limit(100)->asArray()->all(), 100, true);
-        return $this->render('index');
+        return $this->render('index', [
+            'singers_count'         => Singer::find()->count(),
+            'songs_count'           => Song::find()->count(),
+            'search_items_count'    => ElasticItem::find()->count(),
+        ]);
+    }
+
+
+    public function actionMysqlToElastic()
+    {
+        ElasticItem::deleteIndex();
+
+        ini_set('memory_limit', '-1');
+        ini_set('max_execution_time', 0);
+
+
+        $singers    = Singer::find()->select(['id', 'slug', 'name', 'status'])->all();
+
+        foreach ($singers as $singer) {
+            ElasticItem::saveItem($singer->id, 'singer', $singer);
+        }
+
+        $songs      = Song::find()->select(['id', 'slug', 'singer_id', 'title', 'lyrics', 'status'])->with('singer')->all();
+
+        foreach ($songs as $song) {
+            ElasticItem::saveItem($song->id, 'song', $song);
+        }
+
+        Yii::$app->session->setFlash('success', 'The singer is created.');
+
+
+        return $this->redirect(['site/index']);
     }
 
     /**

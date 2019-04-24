@@ -16,7 +16,13 @@ use common\models\Song;
     <?= $form->field($model, 'singer_id')->dropDownList($singers, ['prompt' => '---Select Singer---']) ?>
 
     <?= $form->field($model, 'title') ?>
-    <?= $form->field($model, 'slug') ?>
+
+    <?php if ($model->isNewRecord) { ?>
+        <?= $form->field($model, 'slug')->hiddenInput()->label(false) ?>
+    <?php } else { ?>
+        <?= $form->field($model, 'slug') ?>
+    <?php } ?>
+
     <?= $form->field($model, 'lyrics')->textarea(['rows' => 16]) ?>
 
     <?php if (!$model->isNewRecord) { ?>

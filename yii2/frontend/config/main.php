@@ -15,11 +15,6 @@ return [
         'request' => [
             'csrfParam' => '_csrf-frontend',
         ],
-        'user' => [
-            'identityClass' => 'common\models\User',
-            'enableAutoLogin' => true,
-            'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
-        ],
         'session' => [
             // this is the name of the session cookie used for login on the frontend
             'name' => 'advanced-frontend',
@@ -36,14 +31,22 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                ''                                  => 'site/index',
+                'singers/<i>/<page:\d+>'            => 'site/singers',
+                'singers/<i>'                       => 'site/singers',
+                'songs/<i>/<page:\d+>'              => 'site/songs',
+                'songs/<i>'                         => 'site/songs',
+                '<singer_slug>-songs'               => 'site/singer-songs',
+                '<singer_slug>-songs/<page:\d+>'    => 'site/singer-songs',
+                '<singer_slug>-songs/<song_slug>'   => 'site/song-view',
+                'random-lyrics'                     => 'site/random-song-view',
+                'search'                            => 'site/search',
             ],
         ],
-        */
     ],
     'params' => $params,
 ];

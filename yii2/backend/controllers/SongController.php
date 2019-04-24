@@ -80,15 +80,17 @@ class SongController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', 'The song is created.');
+
+                return $this->redirect(['update', 'id' => $model->id]);
             } else {
-                Yii::$app->session->setFlash('error', "The song couldn't create.");
+                Yii::$app->session->setFlash('error', "The song couldn't be created.");
             }
-        } else {
-            return $this->render('create', [
-                'model'     => $model,
-                'singers'   => $singers
-            ]);
         }
+
+        return $this->render('create', [
+            'model'     => $model,
+            'singers'   => $singers
+        ]);
     }
 
     public function actionUpdate($id)
@@ -102,21 +104,27 @@ class SongController extends Controller
         if ($model->load(Yii::$app->request->post())) {
             if ($model->save()) {
                 Yii::$app->session->setFlash('success', 'The song is updated.');
-            } else {
-                Yii::$app->session->setFlash('error', "The song couldn't update.");
-            }
 
-            return $this->redirect(['update', 'id' => $model->id]);
-        } else {
-            return $this->render('update', [
-                'model'     => $model,
-                'singers'   => $singers
-            ]);
+                return $this->redirect(['update', 'id' => $model->id]);
+            } else {
+                Yii::$app->session->setFlash('error', "The song couldn't be updated.");
+            }
         }
+
+        return $this->render('update', [
+            'model'     => $model,
+            'singers'   => $singers
+        ]);
     }
 
-    public function actionDelete()
+    public function actionDelete($id)
     {
+        $song   = Song::findOne($id);
 
+        if ($song->delete()) {
+            Yii::$app->session->setFlash('success', 'The song is deleted.');
+        }
+
+        return $this->redirect(Yii::$app->request->referrer);;
     }
 }

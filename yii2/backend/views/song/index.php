@@ -1,7 +1,7 @@
 <?php
 use yii\helpers\Html;
 use yii\grid\GridView;
-use common\models\Singer;
+use common\models\Song;
 /* @var $this yii\web\View */
 /* @var $searchModel backend\models\SingerSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
@@ -13,9 +13,9 @@ $this->params['breadcrumbs'][] = $this->title;
 <div>
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
+    <div class="pull-right" style="margin-top: -30px;">
         <?= Html::a('Create Song', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
+    </div>
 
     <?= GridView::widget([
         'dataProvider'  => $dataProvider,
@@ -33,9 +33,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'hit',
             [
                 'attribute' => 'status',
-                'filter'    => Singer::$statuses,
+                'filter'    => Song::$statuses,
                 'value'     => function ($data) {
-                    return Singer::$statuses[$data->status];
+                    return Song::$statuses[$data->status];
                 }
             ],
             [
