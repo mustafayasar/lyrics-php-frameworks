@@ -6,11 +6,11 @@ use yii\widgets\LinkPager;
 /* @var $pages yii\data\Pagination */
 
 $this->title = $title;
+$this->metaTags['description'] = '';
 ?>
 <div class="col-lg-8 col-md-10 mx-auto">
-    <h1><?= $title ?></h1>
     <div>
-        <ul class="pagination">
+        <ul class="letters">
             <?php foreach ($letters as $key => $val) { ?>
                 <li><a href="<?= Url::to(['site/singers', 'i' => $key]) ?>"><?= $val ?></a></li>
             <?php } ?>
@@ -25,12 +25,10 @@ $this->title = $title;
                 </li>
             <?php } ?>
         <?php } else { ?>
-            <p class="text-danger">There is no record in this case.</p>
+            <p class="text-danger">There is no singer.</p>
         <?php } ?>
     </ul>
     <div>
-        <nav aria-label="Page navigation">
         <?= LinkPager::widget(['pagination' => $pages, 'maxButtonCount' => 6]) ?>
-        </nav>
     </div>
 </div>

@@ -8,9 +8,8 @@ use yii\widgets\LinkPager;
 $this->title = $title;
 ?>
 <div class="col-lg-8 col-md-10 mx-auto">
-    <h1><?= $title ?></h1>
     <div>
-        <ul class="pagination">
+        <ul class="letters">
             <?php foreach ($letters as $key => $val) { ?>
                 <li><a href="<?= Url::to(['site/songs', 'i' => $key]) ?>"><?= $val ?></a></li>
             <?php } ?>
@@ -25,7 +24,7 @@ $this->title = $title;
                 </li>
             <?php } ?>
         <?php } else { ?>
-            <p class="text-danger">There is no record in this case.</p>
+            <p class="text-danger">There is no song.</p>
         <?php } ?>
     </ul>
     <div>

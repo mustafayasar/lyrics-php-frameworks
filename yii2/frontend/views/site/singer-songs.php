@@ -1,7 +1,7 @@
 <?php
-use yii\helpers\Html;
 use yii\helpers\Url;
 use common\helpers\SiteHelper;
+use yii\widgets\LinkPager;
 /* @var $this yii\web\View */
 /* @var $singer common\models\Singer */
 /* @var $songs common\models\Song[] */
@@ -10,8 +10,6 @@ use common\helpers\SiteHelper;
 $this->title = $singer->name. ' Songs';
 ?>
 <div class="col-lg-8 col-md-10 mx-auto">
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <?php if (count($songs) > 0) { ?>
         <?php foreach ($songs as $song) { ?>
             <div class="post-preview">
@@ -29,9 +27,12 @@ $this->title = $singer->name. ' Songs';
                 </p>
                 <p class="post-meta">Posted on <?= SiteHelper::getPostedDate($song->created_at) ?></p>
             </div>
-            <hr>
         <?php } ?>
+
+        <div>
+            <?= LinkPager::widget(['pagination' => $pages, 'maxButtonCount' => 6]) ?>
+        </div>
     <?php } else { ?>
-        <p class="text-danger">There is no record in this case.</p>
+        <p class="text-danger">There is no song.</p>
     <?php } ?>
 </div>

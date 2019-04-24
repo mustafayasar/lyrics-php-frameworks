@@ -23,7 +23,6 @@ AppAsset::register($this);
     <?php $this->registerCsrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
-
     <link href='https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
 </head>
@@ -63,14 +62,14 @@ AppAsset::register($this);
 </nav>
 
 <!-- Page Header -->
-<header class="masthead" style="background-image: url('/img/bg-<?= rand(1, 8)?>.jpg')">
+<header class="masthead" style="background-image: url('/img/bg-<?= rand(1, 7)?>.jpg')">
     <div class="overlay"></div>
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-md-10 mx-auto">
                 <div class="site-heading">
-                    <h1>Lyrics Project</h1>
-                    <span class="subheading">A Sample Project for PHP Frameworks</span>
+                    <h1><?= $this->title ?></h1>
+                    <span class="subheading"><?= $this->params['description'] ?></span>
                 </div>
             </div>
         </div>

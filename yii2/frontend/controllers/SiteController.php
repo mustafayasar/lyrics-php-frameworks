@@ -76,7 +76,7 @@ class SiteController extends Controller
             'forcePageParam'    => false,
         ]);
 
-        $singers    = Singer::getListWithCache($initial, $order);
+        $singers    = Singer::getListWithCache($initial, $order, $pages);
 
         return $this->render('singers', [
             'title'     => $title,
@@ -109,7 +109,7 @@ class SiteController extends Controller
             'forcePageParam'    => false,
         ]);
 
-        $songs  = Song::getListWithCache(0, $initial, $order);
+        $songs  = Song::getListWithCache(0, $initial, $order, $pages);
 
         return $this->render('songs', [
             'title'     => $title,
@@ -136,7 +136,7 @@ class SiteController extends Controller
                 'forcePageParam'    => false,
             ]);
 
-            $songs  = Song::getListWithCache($singer->id, false, 'name');
+            $songs  = Song::getListWithCache($singer->id, false, 'name', $pages);
 
             $singer->hit    = $singer->hit + 1;
 

@@ -8,8 +8,6 @@ use common\helpers\SiteHelper;
 $this->title = $song->singer->name.' - '.$song->title. ' Lyrics';
 ?>
 <div class="col-lg-8 col-md-10 mx-auto">
-    <h1><?= Html::encode($this->title) ?></h1>
-
     <div class="post-preview">
         <p>
             <?= $song->lyrics ?>

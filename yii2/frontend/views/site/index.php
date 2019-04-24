@@ -6,7 +6,8 @@ use common\helpers\SiteHelper;
 /* @var $this yii\web\View */
 /* @var $songs common\models\Song[] */
 
-$this->title = 'My Yii Application';
+$this->title = 'Lyrics';
+$this->params['description'] = 'A Sample Project for Testing PHP Frameworks';
 ?>
 <div class="col-lg-8 col-md-10 mx-auto">
     <?php foreach ($songs as $song) { ?>
@@ -25,6 +26,5 @@ $this->title = 'My Yii Application';
             </p>
             <p class="post-meta">Posted on <?= SiteHelper::getPostedDate($song->created_at) ?></p>
         </div>
-        <hr>
     <?php } ?>
 </div>
