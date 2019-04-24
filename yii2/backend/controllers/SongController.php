@@ -1,17 +1,13 @@
 <?php
 namespace backend\controllers;
 
-use backend\models\SingerSearch;
-use backend\models\SongSearch;
-use common\models\Singer;
-use common\models\Song;
 use Yii;
-use yii\helpers\ArrayHelper;
-use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
-use common\models\LoginForm;
+use backend\models\SongSearch;
+use common\models\Singer;
+use common\models\Song;
 
 /**
  * Song controller
@@ -57,7 +53,11 @@ class SongController extends Controller
         ];
     }
 
-
+    /**
+     * Song List
+     *
+     * @return string
+     */
     public function actionIndex()
     {
         $singers = Singer::selectList();
@@ -72,6 +72,11 @@ class SongController extends Controller
         ]);
     }
 
+    /**
+     * Song Create
+     *
+     * @return string|\yii\web\Response
+     */
     public function actionCreate()
     {
         $singers    = Singer::selectList();
@@ -93,6 +98,13 @@ class SongController extends Controller
         ]);
     }
 
+    /**
+     * Song Update
+     *
+     * @param $id
+     *
+     * @return string|\yii\web\Response
+     */
     public function actionUpdate($id)
     {
         $singers    = Singer::selectList();
@@ -117,6 +129,15 @@ class SongController extends Controller
         ]);
     }
 
+    /**
+     * Song Delete
+     *
+     * @param $id
+     * @return \yii\web\Response
+     *
+     * @throws \Throwable
+     * @throws \yii\db\StaleObjectException
+     */
     public function actionDelete($id)
     {
         $song   = Song::findOne($id);

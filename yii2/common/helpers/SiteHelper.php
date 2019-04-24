@@ -3,6 +3,11 @@ namespace common\helpers;
 
 class SiteHelper
 {
+    /**
+     * @param $lyrics
+     *
+     * @return string
+     */
     public static function getPreviewLyrics($lyrics)
     {
         $lyrics     = str_ireplace(['<br/>', '<br>', '<br >'], '<br />', $lyrics);
@@ -14,6 +19,11 @@ class SiteHelper
         return implode('<br />', $lyrics_arr).'...';
     }
 
+    /**
+     * @param $timestamp
+     *
+     * @return string
+     */
     public static function getPostedDate($timestamp)
     {
         return date('d/m/Y', $timestamp);

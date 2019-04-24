@@ -1,17 +1,19 @@
 <?php
-
 namespace frontend\tests\functional;
 
 use frontend\tests\FunctionalTester;
+use yii\helpers\Url;
 
 class HomeCest
 {
-    public function checkOpen(FunctionalTester $I)
+    public function checkHome(FunctionalTester $I)
     {
-        $I->amOnPage(\Yii::$app->homeUrl);
-        $I->see('My Application');
-        $I->seeLink('About');
-        $I->click('About');
-        $I->see('This is the About page.');
+        $I->amOnPage(Url::toRoute('/site/index'));
+        $I->see('Lyrics');
+
+        $I->seeLink('Singers');
+        $I->click('Singers');
+
+        $I->see('Hit Singers');
     }
 }

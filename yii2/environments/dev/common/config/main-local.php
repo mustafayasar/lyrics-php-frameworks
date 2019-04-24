@@ -6,7 +6,24 @@ return [
             'dsn'       => 'mysql:host=localhost;dbname=lyrics',
             'username'  => 'root',
             'password'  => '0404',
-            'charset'   => 'utf8',
+            'charset'   => 'utf8mb4',
+            'enableSchemaCache'     => true,
+            'schemaCacheDuration'   => 2*60*60,
+        ],
+        'cache' => [
+            'class' => 'yii\redis\Cache',
+            'redis' => [
+                'hostname'  => 'localhost',
+                'port'      => 6379,
+                'database'  => 1,
+            ],
+        ],
+        'elasticsearch' => [
+            'class' => 'yii\elasticsearch\Connection',
+            'nodes' => [
+                ['http_address' => '127.0.0.1:9200'],
+                // configure more hosts if you have a cluster
+            ],
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',

@@ -3,6 +3,11 @@ namespace common\helpers;
 
 class AdminHelper
 {
+    /**
+     * @param $text
+     *
+     * @return string
+     */
     public static function slugify($text) {
         // replace non letter or digits by -
         $text = preg_replace('~[^\pL\d]+~u', '-', $text);

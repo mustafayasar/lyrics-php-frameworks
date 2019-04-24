@@ -16,7 +16,7 @@ $this->params['description'] = 'A Sample Project for Testing PHP Frameworks';
 
             <a href="<?= $song_url ?>" title="<?= $song->title ?> Lyrics - <?= $song->singer->name ?>">
                 <h2 class="post-title">
-                    <?= $song->title ?>
+                    <?= $song->title ?> - <?= $song->singer->name ?>
                 </h2>
             </a>
             <p>

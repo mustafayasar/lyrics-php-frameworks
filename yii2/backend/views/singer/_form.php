@@ -16,7 +16,7 @@ use common\models\Singer;
 
     <?php if (!$model->isNewRecord) { ?>
         <?= $form->field($model, 'slug') ?>
-        <?= $form->field($model, 'hit')->textInput(['readonly' => 'readonly']) ?>
+        <?= $form->field($model, 'hit')->textInput(['disabled' => 'disabled']) ?>
         <?= $form->field($model, 'status')->dropDownList(Singer::$statuses) ?>
     <?php } else { ?>
         <?= $form->field($model, 'slug')->hiddenInput()->label(false) ?>

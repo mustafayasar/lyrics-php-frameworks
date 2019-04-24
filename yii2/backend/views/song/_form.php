@@ -26,7 +26,7 @@ use common\models\Song;
     <?= $form->field($model, 'lyrics')->textarea(['rows' => 16]) ?>
 
     <?php if (!$model->isNewRecord) { ?>
-        <?= $form->field($model, 'hit')->textInput(['readonly' => 'readonly']) ?>
+        <?= $form->field($model, 'hit')->textInput(['disabled' => 'disabled']) ?>
         <?= $form->field($model, 'status')->dropDownList(Song::$statuses) ?>
     <?php } ?>
 

@@ -27,6 +27,10 @@ $this->title = 'Lyrics Admin Panel';
             <a class="btn btn-primary" href="<?= Url::to(['site/mysql-to-elastic'])?>">Mysql To Elastic</a>
         </p>
 
+        <p style="padding-top: 35px;">
+            <a class="btn btn-danger" href="<?= Url::to(['site/flush-redis'])?>">Flush Redis</a>
+        </p>
+
 
     </div>
 </div>

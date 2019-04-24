@@ -15,4 +15,8 @@ $this->title = $song->singer->name.' - '.$song->title. ' Lyrics';
         <p class="post-meta">Posted on <?= SiteHelper::getPostedDate($song->created_at) ?></p>
         <p class="post-meta">Viewed <?= $song->hit ?> times</p>
     </div>
+
+    <p>
+        <a class="btn btn-primary" href="<?= Url::to(['site/singer-songs', 'singer_slug' => $song->singer->slug])?>"><?= $song->singer->name ?> All Songs</a>
+    </p>
 </div>

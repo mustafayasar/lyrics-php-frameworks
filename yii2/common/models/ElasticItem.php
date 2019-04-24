@@ -3,6 +3,13 @@ namespace common\models;
 
 use yii\elasticsearch\ActiveRecord;
 
+/**
+ * https://github.com/yiisoft/yii2-elasticsearch
+ *
+ * Class ElasticItem
+ *
+ * @package common\models
+ */
 class ElasticItem extends ActiveRecord
 {
     public static $properties  = [
@@ -67,6 +74,16 @@ class ElasticItem extends ActiveRecord
         $command->deleteIndex(static::index(), static::type());
     }
 
+    /**
+     * To save an ElasticItem
+     * This customizes an item (Singer or Song) for elastic model
+     *
+     * @param $id $id of model
+     * @param $type 'song' or 'singer'
+     * @param $item $this model of Singer or Song
+     *
+     * @return bool
+     */
     public static function saveItem($id, $type, $item)
     {
         if ($type == 'singer') {
@@ -79,7 +96,7 @@ class ElasticItem extends ActiveRecord
 
         $elastic_item   = self::findOne($primaryKey);
 
-        if (!$item) {
+        if (!$elastic_item) {
             $elastic_item               = new ElasticItem();
             $elastic_item->primaryKey   = $primaryKey;
         }
@@ -102,6 +119,18 @@ class ElasticItem extends ActiveRecord
         return $elastic_item->save();
     }
 
+    /**
+     * To delete an ElasticItem
+     *
+     * @param $id $id of model
+     * @param $type 'song' or 'singer
+     *
+     * @return bool|false|int
+     *
+     * @throws \yii\db\Exception
+     * @throws \yii\db\StaleObjectException
+     * @throws \yii\elasticsearch\Exception
+     */
     public static function deleteItem($id, $type)
     {
         if ($type == 'singer') {
@@ -115,7 +144,21 @@ class ElasticItem extends ActiveRecord
         $item   = self::findOne($primaryKey);
 
         if ($item) {
-            $item->delete();
+            return $item->delete();
         }
+
+        return false;
+    }
+
+    /**
+     * To search with a term
+     *
+     * @param $q
+     *
+     * @return array
+     */
+    public static function search($q)
+    {
+        return ElasticItem::find()->query(["match" => ["title" => $q]])->limit(200)->all();
     }
 }

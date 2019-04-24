@@ -69,7 +69,9 @@ AppAsset::register($this);
             <div class="col-lg-8 col-md-10 mx-auto">
                 <div class="site-heading">
                     <h1><?= $this->title ?></h1>
-                    <span class="subheading"><?= $this->params['description'] ?></span>
+                    <?php if (isset($this->params['description'])) { ?>
+                        <span class="subheading"><?= $this->params['description'] ?></span>
+                    <?php } ?>
                 </div>
             </div>
         </div>

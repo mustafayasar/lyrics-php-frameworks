@@ -1,16 +1,14 @@
 <?php
 namespace backend\controllers;
 
-use common\models\ElasticItem;
-use common\models\Singer;
-use common\models\Song;
-use yii\helpers\Url;
 use Yii;
-use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
+use common\models\ElasticItem;
+use common\models\Singer;
+use common\models\Song;
 
 /**
  * Site controller
@@ -31,7 +29,7 @@ class SiteController extends Controller
                         'allow' => true,
                     ],
                     [
-                        'actions' => ['logout', 'index', 'mysql-to-elastic'],
+                        'actions' => ['logout', 'index', 'mysql-to-elastic', 'flush-redis'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -72,7 +70,11 @@ class SiteController extends Controller
         ]);
     }
 
-
+    /**
+     * Copies Data to Elastic from Mysql
+     *
+     * @return \yii\web\Response
+     */
     public function actionMysqlToElastic()
     {
         ElasticItem::deleteIndex();
@@ -95,6 +97,20 @@ class SiteController extends Controller
 
         Yii::$app->session->setFlash('success', 'The singer is created.');
 
+
+        return $this->redirect(['site/index']);
+    }
+
+    /**
+     * Flushes Redis
+     *
+     * @return \yii\web\Response
+     */
+    public function actionFlushRedis()
+    {
+        Yii::$app->cache->flush();
+
+        Yii::$app->session->setFlash('success', 'Cache is flushed.');
 
         return $this->redirect(['site/index']);
     }
