@@ -1,23 +1,35 @@
-@extends('layouts.app')
+@extends('admin.layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Dashboard</div>
+    <div class="site-index">
 
-                <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
+        <div class="jumbotron">
+            <h1>Welcome to the Panel!</h1>
 
-                    You are logged in!
-                </div>
-            </div>
+
+        </div>
+
+        <div class="body-content" style="text-align: center;">
+            <p style="margin-top: 45px;">
+                <a class="btn btn-default" href="{{ route('singer.index') }}">There are <strong>{{ $singers_count }}</strong> singers</a>
+                <a class="btn btn-success" href="{{ route('singer.create') }}">Create Singer</a>
+            </p>
+            <p>
+                <a class="btn btn-default" href="{{ route('song.index') }}">There are <strong>{{ $songs_count }}</strong> songs</a>
+                <a class="btn btn-success" href="{{ route('song.create') }}">Create Song</a>
+            </p>
+
+            {{--<p style="padding-top: 35px;">--}}
+            {{--<p>There are {{ $search_items_count }} elastic search items</p>--}}
+            {{--<a class="btn btn-primary" href="">Mysql To Elastic</a>--}}
+            {{--</p>--}}
+
+            {{--<p style="padding-top: 35px;">--}}
+                {{--<a class="btn btn-danger" href="">Flush Redis</a>--}}
+            {{--</p>--}}
+
+
         </div>
     </div>
-</div>
+
 @endsection

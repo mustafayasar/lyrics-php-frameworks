@@ -1,6 +1,4 @@
 <?php
-use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Auth;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,6 +12,14 @@ use Illuminate\Support\Facades\Auth;
 
 Route::get('/', 'SiteController@home');
 
-Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::prefix('admin')->namespace('Admin')->group(function () {
+    Auth::routes(['register' => false]);
+
+    Route::get('/', 'SiteController@index')->name('home');
+
+    Route::resource('singer', 'SingerController');
+    Route::resource('song', 'SongController');
+});

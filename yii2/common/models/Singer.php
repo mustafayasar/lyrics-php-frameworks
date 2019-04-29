@@ -150,7 +150,7 @@ class Singer extends ActiveRecord
      *
      * @return string
      */
-    public function createSlug($text, $c = 0)
+    protected function createSlug($text, $c = 0)
     {
         $slug   = AdminHelper::slugify($text);
 
