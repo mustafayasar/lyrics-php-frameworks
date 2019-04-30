@@ -28,9 +28,7 @@ class Singer_model extends CI_Model
 
         if (!empty($initial)) {
             if ($initial == '09') {
-                $query->like('slug', '0', 'after');
-
-                for ($i = 1; $i <= 9; $i++) {
+                for ($i = 0; $i <= 9; $i++) {
                     $query->or_like('slug', $i, 'after');
                 }
             } else {

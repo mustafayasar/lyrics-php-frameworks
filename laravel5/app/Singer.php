@@ -3,7 +3,11 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Input;
 
 /**
  * App\Singer
@@ -69,4 +73,86 @@ class Singer extends Model
     {
         return Arr::pluck(Singer::orderBy('name', 'asc')->get(), 'name', 'id');
     }
+
+    /**
+     * Finds singers with cache
+     *
+     * @param bool $initial
+     * @param string $order
+     * @param int $paginate
+     *
+     * @return Singer[]|int
+     */
+    public static function getListWithCache($initial = false, $order = 'name', $paginate = 14)
+    {
+        $cache_key  = 'singer_list_'.(string) $initial.'_'.$order.'_'. (integer) $paginate.'_'.Input::get('page', 1);
+
+        return Cache::remember($cache_key, self::CD_LIST, function () use ($initial, $order, $paginate) {
+            $singers    = Singer::where(['status' => self::STATUS_ACTIVE]);
+
+            if (!empty($initial)) {
+                if ($initial == '09') {
+                    $singers->where(function ($query) {
+                        for ($i = 0; $i <= 9; $i++) {
+                            $query->orWhere('slug', 'like', $i.'%');
+                        }
+                    });
+                } else {
+                    $singers->where('slug', 'like', $initial.'%');
+                }
+            }
+
+            if ($order == 'hit') {
+                $singers->orderBy('hit', 'DESC');
+            } elseif ($order == 'name') {
+                $singers->orderBy('slug', 'ASC');
+            }
+
+            return $singers->paginate($paginate);
+        });
+    }
+    /**
+     * Finds a singer by slug with cache
+     *
+     * @param $slug
+     *
+     * @return Singer
+     */
+    public static function findOneBySlugWithCache($slug)
+    {
+        return Cache::remember('find_singer_by_slug_'.$slug, self::CD_ITEM, function () use ($slug) {
+
+            return Singer::where(['slug' => $slug, 'status' => self::STATUS_ACTIVE])->first();
+
+        });
+    }
+
+    /**
+     * Deletes a singer by slug on cache
+     *
+     * @param $slug
+     *
+     * @return bool
+     */
+    public static function deleteCacheBySlug($slug)
+    {
+        return Cache::forget('find_singer_by_slug_'.$slug);
+    }
+
+    /**
+     * Pluses one to hit of a singer
+     *
+     * @param $id
+     * @return int
+     */
+    public static function plusHit($id)
+    {
+        return Singer::find($id)->increment('hit');
+    }
+
+
+
+
+
+
 }

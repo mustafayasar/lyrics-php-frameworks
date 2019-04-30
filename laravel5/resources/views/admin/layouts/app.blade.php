@@ -33,13 +33,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" href="{{ route('home') }}">{{ config('app.name', 'Laravel') }}</a>
+                <a class="navbar-brand" href="{{ route('admin.home') }}">{{ config('app.name', 'Laravel') }}</a>
             </div>
             <div id="navbar" class="collapse navbar-collapse">
                 @guest
                 @else
                     <ul class="nav navbar-nav">
-                        <li @if (Request::is('admin')) class="active" @endif><a href="{{ route('home') }}">Home</a></li>
+                        <li @if (Request::is('admin')) class="active" @endif><a href="{{ route('admin.home') }}">Home</a></li>
                         <li @if (Request::is('admin/singer*')) class="active" @endif><a href="{{ route('singer.index') }}">Singers</a></li>
                         <li @if (Request::is('admin/song*')) class="active" @endif><a href="{{ route('song.index') }}">Songs</a></li>
                         <li>

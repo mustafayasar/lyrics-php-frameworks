@@ -104,7 +104,7 @@ class SingerController extends Controller
     {
         $validated_data = $request->validated();
 
-        Singer::whereId($id)->update($validated_data);
+        Singer::findOrFail($id)->update($validated_data);
 
         return redirect(route('singer.edit', $id))->with('success', 'Singer is successfully updated');
     }
