@@ -71,11 +71,24 @@ class Song extends Model
     const CREATED_AT = 'created_at';
     const UPDATED_AT = null;
 
+    /**
+     * Relation
+     */
     public function singer()
     {
         return $this->hasOne('App\Singer', 'id', 'singer_id');
     }
 
+    /**
+     * Finds songs with cache
+     *
+     * @param int $singer_id
+     * @param bool $initial
+     * @param string $order
+     * @param int $paginate
+     *
+     * @return int|Song[]
+     */
     public static function getListWithCache($singer_id = 0, $initial = false, $order = 'name', $paginate = 14)
     {
         $cache_key  = 'song_list_'.$singer_id.'_'.(string) $initial.'_'.$order.'_'. (integer) $paginate.'_'.Input::get('page', 1);
@@ -114,9 +127,12 @@ class Song extends Model
     }
 
     /**
+     * Finds a song by slug with cache
+     *
      * @param $singer_slug
      * @param $song_slug
-     * @return mixed
+     *
+     * @return Song
      */
     public static function findOneBySlugsWithCache($singer_slug, $song_slug)
     {
@@ -150,8 +166,11 @@ class Song extends Model
     }
 
     /**
+     * Deletes a song by slugs on cache
+     *
      * @param $singer_slug
      * @param $song_slug
+     *
      * @return bool
      */
     public static function deleteCacheBySlugs($singer_slug, $song_slug)
@@ -167,7 +186,6 @@ class Song extends Model
      */
     public static function plusHit($id)
     {
-        return Song::find($id)->increment('hit');
+        return Song::whereId($id)->increment('hit');
     }
-
 }

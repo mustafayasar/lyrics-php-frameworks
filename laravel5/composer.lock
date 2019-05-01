@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c55980dbfd9a2e9001e2c9fe6201d03e",
+    "content-hash": "2f54f6ea803190f77f67fe5e7531b45a",
     "packages": [
         {
             "name": "barryvdh/laravel-snappy",
@@ -401,6 +401,61 @@
             "time": "2018-12-04T22:38:24+00:00"
         },
         {
+            "name": "elasticsearch/elasticsearch",
+            "version": "v5.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/elastic/elasticsearch-php.git",
+                "reference": "d3c5b55ad94f5053ca76c48585b4cde2cdc6bc59"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/elastic/elasticsearch-php/zipball/d3c5b55ad94f5053ca76c48585b4cde2cdc6bc59",
+                "reference": "d3c5b55ad94f5053ca76c48585b4cde2cdc6bc59",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/ringphp": "~1.0",
+                "php": "^5.6|^7.0",
+                "psr/log": "~1.0"
+            },
+            "require-dev": {
+                "cpliakas/git-wrapper": "~1.0",
+                "doctrine/inflector": "^1.1",
+                "mockery/mockery": "0.9.4",
+                "phpunit/phpunit": "^4.7|^5.4",
+                "sami/sami": "~3.2",
+                "symfony/finder": "^2.8",
+                "symfony/yaml": "^2.8"
+            },
+            "suggest": {
+                "ext-curl": "*",
+                "monolog/monolog": "Allows for client-level logging and tracing"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Elasticsearch\\": "src/Elasticsearch/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Zachary Tong"
+                }
+            ],
+            "description": "PHP Client for Elasticsearch",
+            "keywords": [
+                "client",
+                "elasticsearch",
+                "search"
+            ],
+            "time": "2019-01-08T18:57:00+00:00"
+        },
+        {
             "name": "erusev/parsedown",
             "version": "1.7.3",
             "source": {
@@ -501,6 +556,107 @@
             "time": "2019-01-10T14:06:47+00:00"
         },
         {
+            "name": "guzzlehttp/ringphp",
+            "version": "1.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/RingPHP.git",
+                "reference": "5e2a174052995663dd68e6b5ad838afd47dd615b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/RingPHP/zipball/5e2a174052995663dd68e6b5ad838afd47dd615b",
+                "reference": "5e2a174052995663dd68e6b5ad838afd47dd615b",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/streams": "~3.0",
+                "php": ">=5.4.0",
+                "react/promise": "~2.0"
+            },
+            "require-dev": {
+                "ext-curl": "*",
+                "phpunit/phpunit": "~4.0"
+            },
+            "suggest": {
+                "ext-curl": "Guzzle will use specific adapters if cURL is present"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GuzzleHttp\\Ring\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                }
+            ],
+            "description": "Provides a simple API and specification that abstracts away the details of HTTP into a single PHP function.",
+            "time": "2018-07-31T13:22:33+00:00"
+        },
+        {
+            "name": "guzzlehttp/streams",
+            "version": "3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/guzzle/streams.git",
+                "reference": "47aaa48e27dae43d39fc1cea0ccf0d84ac1a2ba5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/guzzle/streams/zipball/47aaa48e27dae43d39fc1cea0ccf0d84ac1a2ba5",
+                "reference": "47aaa48e27dae43d39fc1cea0ccf0d84ac1a2ba5",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GuzzleHttp\\Stream\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Michael Dowling",
+                    "email": "mtdowling@gmail.com",
+                    "homepage": "https://github.com/mtdowling"
+                }
+            ],
+            "description": "Provides a simple abstraction over streams of data",
+            "homepage": "http://guzzlephp.org/",
+            "keywords": [
+                "Guzzle",
+                "stream"
+            ],
+            "time": "2014-10-12T19:18:40+00:00"
+        },
+        {
             "name": "jakub-onderka/php-console-color",
             "version": "v0.2",
             "source": {
@@ -589,6 +745,46 @@
             "time": "2018-09-29T18:48:56+00:00"
         },
         {
+            "name": "jdrieghe/array-helpers",
+            "version": "v0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jdrieghe/array-helpers.git",
+                "reference": "c2ce0a40a160cfa861feb3af4cb7dc1699206b0e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jdrieghe/array-helpers/zipball/c2ce0a40a160cfa861feb3af4cb7dc1699206b0e",
+                "reference": "c2ce0a40a160cfa861feb3af4cb7dc1699206b0e",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/php-code-coverage": "^4.0",
+                "phpunit/phpunit": "^5.7"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/array-helpers.php"
+                ],
+                "psr-4": {
+                    "ArrayHelpers\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jonas Drieghe",
+                    "email": "jonasd@madewithlove.be"
+                }
+            ],
+            "description": "A collection of convenience methods to deal with arrays in php. Somewhat inspired by Laravel array helpers.",
+            "time": "2018-07-17T15:53:10+00:00"
+        },
+        {
             "name": "knplabs/knp-snappy",
             "version": "v1.1.0",
             "source": {
@@ -656,16 +852,16 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.8.14",
+            "version": "v5.8.15",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "d1ba096bf809c7cbe6cb9624222326d75c92fd74"
+                "reference": "8a34004aed6ff0aa4072360e3e5bd875edebc223"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/d1ba096bf809c7cbe6cb9624222326d75c92fd74",
-                "reference": "d1ba096bf809c7cbe6cb9624222326d75c92fd74",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/8a34004aed6ff0aa4072360e3e5bd875edebc223",
+                "reference": "8a34004aed6ff0aa4072360e3e5bd875edebc223",
                 "shasum": ""
             },
             "require": {
@@ -799,7 +995,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2019-04-23T13:22:19+00:00"
+            "time": "2019-04-30T14:05:03+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -947,6 +1143,51 @@
                 "storage"
             ],
             "time": "2019-03-30T13:22:34+00:00"
+        },
+        {
+            "name": "madewithlove/elasticsearcher",
+            "version": "0.5.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/madewithlove/elasticsearcher.git",
+                "reference": "1d195d7ac47247c8f8b17d09b85e12e75970fd13"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/madewithlove/elasticsearcher/zipball/1d195d7ac47247c8f8b17d09b85e12e75970fd13",
+                "reference": "1d195d7ac47247c8f8b17d09b85e12e75970fd13",
+                "shasum": ""
+            },
+            "require": {
+                "elasticsearch/elasticsearch": "^5.1",
+                "jdrieghe/array-helpers": "^0.2.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5.7"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "0.2-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "ElasticSearcher\\": [
+                        "src"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Wrapper on top of the ElasticSearch PHP SDK which allows easier index/document/query management.",
+            "keywords": [
+                "elastic",
+                "elasticsearch"
+            ],
+            "time": "2018-07-18T07:50:56+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -1679,6 +1920,52 @@
                 "uuid"
             ],
             "time": "2018-07-19T23:38:55+00:00"
+        },
+        {
+            "name": "react/promise",
+            "version": "v2.7.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/reactphp/promise.git",
+                "reference": "31ffa96f8d2ed0341a57848cbb84d88b89dd664d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/reactphp/promise/zipball/31ffa96f8d2ed0341a57848cbb84d88b89dd664d",
+                "reference": "31ffa96f8d2ed0341a57848cbb84d88b89dd664d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "React\\Promise\\": "src/"
+                },
+                "files": [
+                    "src/functions_include.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jan Sorgalla",
+                    "email": "jsorgalla@gmail.com"
+                }
+            ],
+            "description": "A lightweight implementation of CommonJS Promises/A for PHP",
+            "keywords": [
+                "promise",
+                "promises"
+            ],
+            "time": "2019-01-07T21:25:54+00:00"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -4379,16 +4666,16 @@
         },
         {
             "name": "phpdocumentor/reflection-docblock",
-            "version": "4.3.0",
+            "version": "4.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
-                "reference": "94fd0001232e47129dd3504189fa1c7225010d08"
+                "reference": "bdd9f737ebc2a01c06ea7ff4308ec6697db9b53c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/94fd0001232e47129dd3504189fa1c7225010d08",
-                "reference": "94fd0001232e47129dd3504189fa1c7225010d08",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/bdd9f737ebc2a01c06ea7ff4308ec6697db9b53c",
+                "reference": "bdd9f737ebc2a01c06ea7ff4308ec6697db9b53c",
                 "shasum": ""
             },
             "require": {
@@ -4426,7 +4713,7 @@
                 }
             ],
             "description": "With this component, a library can provide support for annotations via DocBlocks or otherwise retrieve information that is embedded in a DocBlock.",
-            "time": "2017-11-30T07:14:17+00:00"
+            "time": "2019-04-30T17:48:53+00:00"
         },
         {
             "name": "phpdocumentor/type-resolver",

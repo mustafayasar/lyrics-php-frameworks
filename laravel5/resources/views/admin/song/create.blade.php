@@ -1,4 +1,4 @@
-@extends('admin.layouts.app', ['title' => 'Singer Create'])
+@extends('admin.layouts.app', ['title' => 'Song Create'])
 
 @section('content')
     <div class="col-md-6">

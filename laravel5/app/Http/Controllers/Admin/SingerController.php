@@ -118,7 +118,11 @@ class SingerController extends Controller
     public function destroy($id)
     {
         if (Singer::destroy($id)) {
-            Song::where(['singer_id' => $id])->delete();
+            $singer_songs = Song::where(['singer_id' => $id])->get();
+
+            foreach ($singer_songs as $singer_song) {
+                $singer_song->delete();
+            }
 
             return redirect(route('singer.index'))->with('success', 'Singer is successfully deleted');
         } else {

@@ -2,12 +2,10 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * App\Singer
@@ -64,11 +62,12 @@ class Singer extends Model
      */
     public $timestamps = false;
 
-    public function songs()
-    {
-        return $this->hasMany('App\Song');
-    }
 
+    /**
+     * For select list
+     *
+     * @return array
+     */
     public static function selectList()
     {
         return Arr::pluck(Singer::orderBy('name', 'asc')->get(), 'name', 'id');
@@ -111,6 +110,7 @@ class Singer extends Model
             return $singers->paginate($paginate);
         });
     }
+
     /**
      * Finds a singer by slug with cache
      *
@@ -147,12 +147,6 @@ class Singer extends Model
      */
     public static function plusHit($id)
     {
-        return Singer::find($id)->increment('hit');
+        return Singer::whereId($id)->increment('hit');
     }
-
-
-
-
-
-
 }

@@ -180,8 +180,7 @@ return [
         Barryvdh\Debugbar\ServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
 
-        Rafwell\Simplegrid\SimplegridServiceProvider::class,
-
+        Rafwell\Simplegrid\SimplegridServiceProvider::class
     ],
 
     /*

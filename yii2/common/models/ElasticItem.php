@@ -159,6 +159,6 @@ class ElasticItem extends ActiveRecord
      */
     public static function search($q)
     {
-        return ElasticItem::find()->query(["match" => ["title" => $q]])->limit(200)->all();
+        return ElasticItem::find()->where(['status' => 1])->query(["match" => ["title" => $q]])->limit(200)->all();
     }
 }

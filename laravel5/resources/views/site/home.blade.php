@@ -1,3 +1,6 @@
+@section('title', 'Lyrics')
+@section('description', 'A Sample Project for Testing PHP Frameworks')
+
 @extends('layouts.app')
 
 @section('content')

@@ -89,10 +89,13 @@ class SongController extends Controller
     {
         $song = Song::findOrFail($id);
 
+        $song->lyrics  = str_replace(["\n", "\t", "\r"], "", $song->lyrics);
+        $song->lyrics  = str_replace(['<br />', '<br>'], "\n", $song->lyrics);
+
         return view('admin.song.edit', [
             'song'      => $song,
             'singers'   => Singer::selectList(),
-            'statuses'  => Singer::$statuses
+            'statuses'  => Song::$statuses
         ]);
     }
 
@@ -107,7 +110,7 @@ class SongController extends Controller
     {
         $validated_data = $request->validated();
 
-        Song::whereId($id)->update($validated_data);
+        Song::findOrFail($id)->update($validated_data);
 
         return redirect(route('song.edit', $id))->with('success', 'Song is successfully updated');
     }

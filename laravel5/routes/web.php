@@ -18,12 +18,15 @@ Route::get('{singer_slug}-songs', 'SiteController@singerSongs')
 Route::get('{singer_slug}/{song_slug}-lyrics', 'SiteController@songView')
     ->where(['singer_slug' => '[a-z0-9-]+', 'song_slug' => '[a-z0-9-]+'])->name('song_view');
 Route::get('random-lyrics', 'SiteController@randomSongView')->name('random_lyrics');
+Route::get('search', 'SiteController@search')->name('search');
 
 
 Route::prefix('admin')->namespace('Admin')->group(function () {
     Auth::routes(['register' => false]);
 
     Route::get('/', 'SiteController@index')->name('admin.home');
+    Route::get('mysql-to-elastic', 'SiteController@mysqlToElastic')->name('mysql_to_elastic');
+    Route::get('flush-redis', 'SiteController@flushRedis')->name('flush_redis');
 
     Route::resource('singer', 'SingerController');
     Route::resource('song', 'SongController');

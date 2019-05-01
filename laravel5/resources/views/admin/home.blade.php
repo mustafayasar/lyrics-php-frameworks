@@ -19,14 +19,14 @@
                 <a class="btn btn-success" href="{{ route('song.create') }}">Create Song</a>
             </p>
 
-            {{--<p style="padding-top: 35px;">--}}
-            {{--<p>There are {{ $search_items_count }} elastic search items</p>--}}
-            {{--<a class="btn btn-primary" href="">Mysql To Elastic</a>--}}
-            {{--</p>--}}
+            <p style="padding-top: 35px;">
+                <p>There are {{ $search_items_count }} elastic search items</p>
+                <a class="btn btn-primary" href="{{ route('mysql_to_elastic') }}">Mysql To Elastic</a>
+            </p>
 
-            {{--<p style="padding-top: 35px;">--}}
-                {{--<a class="btn btn-danger" href="">Flush Redis</a>--}}
-            {{--</p>--}}
+            <p style="padding-top: 35px;">
+                <a class="btn btn-danger" href="{{ route('flush_redis') }}">Flush Redis</a>
+            </p>
 
 
         </div>

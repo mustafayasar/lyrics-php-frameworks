@@ -39,6 +39,9 @@ class SongStore extends FormRequest
         ];
     }
 
+    /**
+     * prepareForValidation
+     */
     protected function prepareForValidation()
     {
         if ($this->isMethod('post'))
@@ -53,8 +56,20 @@ class SongStore extends FormRequest
         } else {
             $this->merge(['slug' => $this->createSlug($this->get('slug'), $this->get('singer_id'), $this->route('song', 0))]);
         }
+
+        $this->merge(['lyrics' => nl2br($this->get('lyrics'))]);
     }
 
+    /**
+     * Creates a slug after controls there is or not
+     *
+     * @param $title
+     * @param $singer_id
+     * @param int $id
+     * @param int $c
+     *
+     * @return string
+     */
     protected function createSlug($title, $singer_id, $id = 0, $c = 0)
     {
         $slug   = Str::slug($title);

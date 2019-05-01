@@ -2,15 +2,18 @@
 
 namespace App\Http\Controllers;
 
-
-use App\Singer;
-use App\Song;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Input;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
+use App\Singer;
+use App\Song;
+use App\Elastic\SearchQuery;
 
 class SiteController extends Controller
 {
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function home()
     {
         $songs  = Song::getListWithCache(0, false, 'hit', 8);
@@ -18,6 +21,10 @@ class SiteController extends Controller
         return view('site.home', ['songs' => $songs]);
     }
 
+    /**
+     * @param $i
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
+     */
     public function singers($i)
     {
         $letters = config('app.letters');
@@ -43,6 +50,10 @@ class SiteController extends Controller
         ]);
     }
 
+    /**
+     * @param $i
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
+     */
     public function songs($i)
     {
         $letters = config('app.letters');
@@ -68,6 +79,10 @@ class SiteController extends Controller
         ]);
     }
 
+    /**
+     * @param $singer_slug
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
+     */
     public function singerSongs($singer_slug)
     {
         $singer = Singer::findOneBySlugWithCache($singer_slug);
@@ -90,6 +105,11 @@ class SiteController extends Controller
         return abort(404);
     }
 
+    /**
+     * @param $singer_slug
+     * @param $song_slug
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
+     */
     public function songView($singer_slug, $song_slug)
     {
         $song = Song::findOneBySlugsWithCache($singer_slug, $song_slug);
@@ -112,6 +132,9 @@ class SiteController extends Controller
         return abort(404);
     }
 
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View|void
+     */
     public function randomSongView()
     {
         $song = Song::getRandomSong();
@@ -132,6 +155,20 @@ class SiteController extends Controller
         }
 
         return abort(404);
+    }
+
+    /**
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function search()
+    {
+        $q      = Input::get('q');
+        $result = SearchQuery::search($q);
+
+        return view('site.search', [
+            'q'         => $q,
+            'result'    => $result
+        ]);
     }
 
 

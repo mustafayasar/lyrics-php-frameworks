@@ -95,7 +95,7 @@ class SiteController extends Controller
             ElasticItem::saveItem($song->id, 'song', $song);
         }
 
-        Yii::$app->session->setFlash('success', 'The singer is created.');
+        Yii::$app->session->setFlash('success', 'Mysql tables are copied to Elastic');
 
 
         return $this->redirect(['site/index']);

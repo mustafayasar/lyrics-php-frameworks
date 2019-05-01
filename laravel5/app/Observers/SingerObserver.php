@@ -2,6 +2,7 @@
 
 namespace App\Observers;
 
+use App\Elastic\SearchQuery;
 use App\Singer;
 use App\Song;
 
@@ -15,7 +16,7 @@ class SingerObserver
      */
     public function created(Singer $singer)
     {
-
+        SearchQuery::saveItem($singer->id, 'singer', $singer);
     }
 
     /**
@@ -26,6 +27,10 @@ class SingerObserver
      */
     public function updated(Singer $singer)
     {
+        SearchQuery::saveItem($singer->id, 'singer', $singer);
+
+        Singer::deleteCacheBySlug($singer->slug);
+
         if ($singer->status == 1) {
             Song::where(['singer_id' => $singer->id, 'status' => Song::STATUS_SINGER_PASSIVE])
                 ->update(['status' => Song::STATUS_ACTIVE]);
@@ -45,7 +50,7 @@ class SingerObserver
      */
     public function deleted(Singer $singer)
     {
-        //
+        SearchQuery::deleteItem($singer->id, 'singer');
     }
 
     /**
@@ -56,7 +61,7 @@ class SingerObserver
      */
     public function restored(Singer $singer)
     {
-        //
+        SearchQuery::saveItem($singer->id, 'singer', $singer);
     }
 
     /**
@@ -67,6 +72,6 @@ class SingerObserver
      */
     public function forceDeleted(Singer $singer)
     {
-        //
+        SearchQuery::deleteItem($singer->id, 'singer');
     }
 }

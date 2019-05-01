@@ -45,7 +45,7 @@
                     <a class="nav-link" href="{{ route('songs', 'hit') }}">Songs</a>
                 </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0" action="{{ route('singers', 'hit') }}" method="get">
+            <form class="form-inline my-2 my-lg-0" action="{{ route('search') }}" method="get">
                 <input class="form-control mr-sm-2" name="q" type="text" placeholder="Search" aria-label="Search">
             </form>
         </div>

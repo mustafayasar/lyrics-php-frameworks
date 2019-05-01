@@ -32,7 +32,6 @@ $this->title = 'Search for "'.$q.'"';
                         </h2>
                     </a>
                 </div>
-                <hr>
             <?php } ?>
         <?php } ?>
     <?php } else { ?>

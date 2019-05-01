@@ -1,4 +1,4 @@
-@extends('admin.layouts.app')
+@extends('admin.layouts.app', ['title' => 'Singer List'])
 
 @section('content')
     <div class="col-md-12">

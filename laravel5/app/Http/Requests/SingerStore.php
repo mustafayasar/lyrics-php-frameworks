@@ -35,6 +35,9 @@ class SingerStore extends FormRequest
         ];
     }
 
+    /**
+     * prepareForValidation
+     */
     protected function prepareForValidation()
     {
         if ($this->isMethod('post'))
@@ -49,6 +52,14 @@ class SingerStore extends FormRequest
         }
     }
 
+    /**
+     * Creates a slug after controls there is or not
+     *
+     * @param $name
+     * @param int $c
+     *
+     * @return string
+     */
     protected function createSlug($name, $c = 0)
     {
         $slug   = Str::slug($name);
