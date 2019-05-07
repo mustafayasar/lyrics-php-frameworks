@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% block title %}Lyrics Admin{% endblock %}</title>
+
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}" defer></script>
+
+    <!-- Fonts -->
+    <link rel="dns-prefetch" href="//fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
+
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="{{ asset('simple-grid/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css') }}" />
+    <link rel="stylesheet" href="{{ asset('simple-grid/css/simplegrid.css') }}">
+
+    {% block stylesheets %}{% endblock %}
+</head>
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="">Lyrics Admin</a>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse pull-right">
+            {% if is_granted('ROLE_ADMIN') %}
+                <ul class="nav navbar-nav">
+                    <li {% if app.request.attributes.get('_route') == 'admin_home' %} class="active" {% endif %}><a href="{{ path('admin_home') }}">Home</a></li>
+                    <li {% if app.request.attributes.get('_route') == 'admin_singer_index' %} class="active" {% endif %}><a href="{{ path('admin_singer_index') }}">Singers</a></li>
+                    {#<li {% if app.request.attributes.get('_route') == 'Songs' %} class="active" {% endif %}><a href="{{ path('admin_song_index') }}">Songs</a></li>#}
+                    <li>
+                        <a class="dropdown-item" href="{{ logout_path() }}">
+                            Logout
+                        </a>
+                    </li>
+                </ul>
+            {% else %}
+                <ul class="nav navbar-nav">
+                    <li><a href="{{ path('admin_app_login') }}">Login</a></li>
+
+                </ul>
+            {% endif %}
+            {#@guest#}
+            {#@else#}
+            {#<ul class="nav navbar-nav">#}
+                {#<li @if (Request::is('admin')) class="active" @endif><a href="{{ route('admin.home') }}">Home</a></li>#}
+                {#<li @if (Request::is('admin/singer*')) class="active" @endif><a href="{{ route('singer.index') }}">Singers</a></li>#}
+                {#<li @if (Request::is('admin/song*')) class="active" @endif><a href="{{ route('song.index') }}">Songs</a></li>#}
+                {#<li>#}
+                    {#<a class="dropdown-item" href="{{ route('logout') }}"#}
+                       {#onclick="event.preventDefault(); document.getElementById('logout-form').submit();">#}
+                        {#{{ __('Logout') }} ({{ Auth::user()->name }})#}
+                    {#</a>#}
+
+                    {#<form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">#}
+                        {#@csrf#}
+                    {#</form>#}
+                {#</li>#}
+            {#</ul>#}
+            {#@endguest#}
+        </div><!--/.nav-collapse -->
+    </div>
+</nav>
+
+<div class="container">
+
+    <div class="starter-template">
+        <div class="row" style="padding-top: 60px;">
+            {#@if (Session::has('success'))#}
+            {#<p class="alert alert-success">{{ Session::get('success') }}</p>#}
+            {#@endif#}
+
+            {#@if (Session::has('error'))#}
+            {#<p class="alert alert-danger">{{ Session::get('error') }}</p>#}
+            {#@endif#}
+
+            {% block body %}{% endblock %}
+        </div>
+    </div>
+
+</div><!-- /.container -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
+
+<!-- ONLY INCLUDE IF YOU NOT HAVE THOSE DEPENDENCIES -->
+<script src="{{ asset('simple-grid/moment/moment.js') }}"></script>
+<script type="text/javascript" src="{{ asset('simple-grid/eonasdan-bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') }}"></script>
+
+<!-- JS LARAVEL SIMPLEGRID -->
+<script src="{{ asset('simple-grid/js/simplegrid.js') }}"></script>
+
+
+{% block javascripts %}{% endblock %}
+</body>
+</html>
