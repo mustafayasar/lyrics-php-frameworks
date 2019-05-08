@@ -31,4 +31,4 @@ services:
         class: App\Admin\SingerAdmin
         arguments: [~, App\Entity\Singer, ~]
         tags:
-        - { name: sonata.admin, manager_type: orm, label: Singer }
+        - { name: sonata.admin, manager_type: orm, group: Items, label: Singer, label_catalogue: 'App' }

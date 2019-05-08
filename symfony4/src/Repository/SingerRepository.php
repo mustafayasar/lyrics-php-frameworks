@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Singer;
+use App\Utils\AdminHelper;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bridge\Doctrine\RegistryInterface;
@@ -21,30 +22,50 @@ class SingerRepository extends ServiceEntityRepository
         parent::__construct($registry, Singer::class);
     }
 
-     /**
-      * @return Singer[] Returns an array of Singer objects
-      */
-
-    public function findAllWithPagination($currentPage = 1)
+    /**
+     * Creates a slug after controls there is or not
+     *
+     * @param Singer $object
+     * @param int $c
+     *
+     * @return string
+     *
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function createSlug($object, $c = 0)
     {
+        if (!empty($object->getSlug())) {
+            $slug   = AdminHelper::slugify($object->getSlug());
+        } elseif (!empty($object->getName())) {
+            $slug   = AdminHelper::slugify($object->getName());
+        } else {
+            return '';
+        }
 
-         $this->createQueryBuilder('s')
-            ->orderBy('s.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery();
+        if ($c > 0) {
+            $slug   = $slug.'-'.$c;
+        }
 
+        if ($slug != '') {
+            $slug_query = $this->createQueryBuilder('s')
+                            ->select('count(s.id)')
+                            ->andWhere('s.slug = :slug')
+                            ->setParameter('slug', $slug);
+
+            if ($object->getId() > 0) {
+                $slug_query->andWhere('s.id != :id')
+                        ->setParameter('id', $object->getId());
+            }
+
+            if ($slug_query->getQuery()->getSingleScalarResult() > 0) {
+                return $this->createSlug($object, $c+1);
+            }
+        }
+
+        return $slug;
     }
 
-    public function paginate($dql, $page = 1, $limit = 5)
-    {
-        $paginator = new Paginator($dql);
 
-        $paginator->getQuery()
-            ->setFirstResult($limit * ($page - 1)) // Offset
-            ->setMaxResults($limit); // Limit
-
-        return $paginator;
-    }
     /*
     public function findOneBySomeField($value): ?Singer
     {

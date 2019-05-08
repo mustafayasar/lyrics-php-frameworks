@@ -1,11 +1,32 @@
 sonata_admin:
-    title: 'Sonata Admin'
+    title: 'Lyrics Admin'
+#    templates:
+#      user_block: '%kernel.project_dir%/templates/admin/layouts/menu.html.twig'
+
     dashboard:
+
         blocks:
             - { type: sonata.admin.block.admin_list, position: left }
+            -
+                position: right
+                type: sonata.block.service.text
+                settings:
+                    content: >
+                          <h2>Welcome to the Sonata Admin</h2>
+                          <p>This is a <code>sonata.block.service.text</code> from the Block
+                          Bundle, you can create and add new block in these area by configuring
+                          the <code>sonata_admin</code> section.</p> <br/> For instance, here
+                          a RSS feed parser (<code>sonata.block.service.rss</code>):
+
+    security:
+        handler: sonata.admin.security.handler.role
+
+        role_admin: ROLE_ADMIN
+        role_super_admin: ROLE_ADMIN
 
 sonata_block:
     blocks:
+        sonata.block.service.text:
         sonata.admin.block.admin_list:
             contexts: [admin]
 

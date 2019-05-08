@@ -38,7 +38,7 @@ class AppAuthenticator extends AbstractFormLoginAuthenticator
 
     public function supports(Request $request)
     {
-        return 'admin_app_login' === $request->attributes->get('_route')
+        return 'app_login' === $request->attributes->get('_route')
             && $request->isMethod('POST');
     }
 
@@ -85,11 +85,11 @@ class AppAuthenticator extends AbstractFormLoginAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        return new RedirectResponse($this->urlGenerator->generate('admin_home'));
+        return new RedirectResponse('/admin');
     }
 
     protected function getLoginUrl()
     {
-        return $this->urlGenerator->generate('admin_app_login');
+        return $this->urlGenerator->generate('app_login');
     }
 }

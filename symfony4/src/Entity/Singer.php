@@ -10,6 +10,18 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Singer
 {
+    const STATUS_ACTIVE = 1;
+    const STATUS_PASSIVE = 0;
+
+    public static $statuses = [
+        self::STATUS_PASSIVE    => 'Passive',
+        self::STATUS_ACTIVE     => 'Active',
+    ];
+
+    // Cache Durations
+    const CD_LIST = 6*60;
+    const CD_ITEM = 60*60;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -30,7 +42,7 @@ class Singer
     /**
      * @ORM\Column(type="integer")
      */
-    private $hit = 1;
+    private $hit = 0;
 
     /**
      * @ORM\Column(type="integer")

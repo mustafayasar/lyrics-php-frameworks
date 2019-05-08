@@ -21,7 +21,8 @@ security:
                     - App\Security\AppAuthenticator
             logout:
                 path: /admin/logout
-                target: /
+                target: /admin/login
+
             # activate different ways to authenticate
 
             # http_basic: true

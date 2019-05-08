@@ -5,11 +5,10 @@
 
 logout:
   path: /admin/logout
-
-controllers:
-  resource: '../src/Controller/Admin'
-  type: annotation
-  prefix: /admin
-  name_prefix: 'admin_'
+#controllers:
+#  resource: '../src/Controller/Admin'
+#  type: annotation
+#  prefix: /admin
+#  name_prefix: 'admin_'
 
 
