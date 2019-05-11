@@ -32,3 +32,10 @@ services:
         arguments: [~, App\Entity\Singer, ~]
         tags:
         - { name: sonata.admin, manager_type: orm, group: Items, label: Singer, label_catalogue: 'App' }
+
+    admin.song:
+        class: App\Admin\SongAdmin
+        arguments: [~, App\Entity\Song, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: Items, label: Song, label_catalogue: 'App' }
+#        public: true

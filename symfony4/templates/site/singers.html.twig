@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+<div class="col-lg-8 col-md-10 mx-auto">
+    <div>
+        <ul class="letters">
+            {% for key, val in letters %}
+                <li><a href="{{ path('singers', { 'i': key}) }}">{{ val }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+    <ul class="list-group">
+        {% if singers|length > 0 %}
+            {% for singer in singers %}
+                <li class="list-group-item">
+                    <a href=""
+                       title="{{ singer.name }} Songs">{{ singer.name }}</a>
+                </li>
+            {% endfor %}
+        {% else %}
+            <p class="text-danger">There is no singer.</p>
+        {% endif %}
+    </ul>
+
+    {% if total_page > 1 %}
+        <div>
+            <ul class="pagination">
+                {% set x = 0 %}
+
+                {% for p in 1..total_page %}
+                    {% if x <= 6 and ((page - 3) <= p) %}
+                        <li {% if p == page %} class="active" {% endif %} >
+                            <a href="{{ path('singers', { 'i': i, 'page' : p}) }}">{{ p }}</a>
+                        </li>
+
+                        {% set x = x + 1 %}
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

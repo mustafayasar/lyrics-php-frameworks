@@ -443,4 +443,25 @@ ul.pagination {
 }
 ul.pagination li {
   display: inline-block;
+  font-size: 16px;
+}
+ul.pagination li a {
+  border: 2px solid #4c4c4c;
+  color: #4c4c4c;
+  padding: 2px 8px;
+}
+ul.pagination li a:hover {
+  text-decoration: none;
+  opacity: .8;
+}
+ul.pagination li.prev a,
+ul.pagination li.next a {
+  border: none;
+  padding: 2px 2px;
+}
+ul.pagination li.disabled span {
+  padding: 2px 2px;
+}
+ul.pagination li.active a {
+  opacity: .4;
 }

@@ -29,15 +29,14 @@ final class SingerAdmin extends AbstractAdmin
         parent::validate($errorElement, $object);
 
         $object->setSlug($this->repository->createSlug($object));
-
     }
 
     protected function configureFormFields(FormMapper $formMapper)
     {
-        $formMapper->add('name', TextType::class);
+        $formMapper->add('name');
 
         if ($this->isCurrentRoute('edit')) {
-            $formMapper->add('slug', TextType::class);
+            $formMapper->add('slug');
             $formMapper->add('hit', IntegerType::class, ['disabled' => 'disabled']);
         }
 
@@ -49,7 +48,6 @@ final class SingerAdmin extends AbstractAdmin
         $datagridMapper->add('id', 'doctrine_orm_number', [], IntegerType::class);
         $datagridMapper->add('name');
         $datagridMapper->add('status', 'doctrine_orm_choice', [],ChoiceType::class, ['choices' => array_flip(Singer::$statuses)]);
-//        $datagridMapper->add('status', ChoiceType::class, ['choices' => array_flip(Singer::$statuses)]);
     }
 
     protected function configureListFields(ListMapper $listMapper)

@@ -16,7 +16,6 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class SingerRepository extends ServiceEntityRepository
 {
-
     public function __construct(RegistryInterface $registry)
     {
         parent::__construct($registry, Singer::class);
@@ -64,7 +63,35 @@ class SingerRepository extends ServiceEntityRepository
 
         return $slug;
     }
+    public function getListWithCache($initial = false, $order = 'name', $limit = 14, $page = 0)
+    {
+        $singers    = $this->createQueryBuilder('s')->andWhere("s.status = 1");
 
+        if (!empty($initial)) {
+            if ($initial == '09') {
+                $singers->andWhere("s.slug LIKE '0%' OR s.slug LIKE '1%' OR s.slug LIKE '2%' OR s.slug LIKE '3%' OR s.slug LIKE '4%' OR s.slug LIKE '5%' OR s.slug LIKE '6%' OR s.slug LIKE '7%' OR s.slug LIKE '8%' OR s.slug LIKE '9%'");
+            } else {
+                $singers->andWhere("s.slug LIKE '$initial%'");
+            }
+        }
+
+        if ($limit === 'get_count') {
+            return $singers->select('COUNT(s.id)')->getQuery()->getSingleScalarResult();
+        } elseif ($limit > 0) {
+            $page   = $page < 2 ? 1 : $page;
+            $offset = ($page - 1) * $limit;
+
+            $singers->setMaxResults($limit)->setFirstResult($offset);
+        }
+
+        if ($order == 'hit') {
+            $singers->orderBy("s.hit","DESC");
+        } elseif ($order == 'name') {
+            $singers->orderBy("s.slug","ASC");
+        }
+
+        return $singers->getQuery()->getResult();
+    }
 
     /*
     public function findOneBySomeField($value): ?Singer

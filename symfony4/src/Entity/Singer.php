@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
+use Doctrine\Common\Collections\Collection;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SingerRepository")
  * @ORM\Table(name="singers")
@@ -48,6 +49,11 @@ class Singer
      * @ORM\Column(type="integer")
      */
     private $status;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Song", mappedBy="singer", cascade={"remove"}, fetch="EAGER")
+     */
+    private $songs;
 
     public function getId(): ?int
     {
@@ -100,5 +106,13 @@ class Singer
         $this->status = $status;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Song[]
+     */
+    public function getSongs(): ?Collection
+    {
+        return $this->songs;
     }
 }
