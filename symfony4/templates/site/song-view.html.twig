@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ song.singer.name }} - {{ song.title }} Lyrics{% endblock %}
+{% block h1 %}{{ song.singer.name }} - {{ song.title }} Lyrics{% endblock %}
+
+{% block body %}
+
+<div class="col-lg-8 col-md-10 mx-auto">
+    <div class="post-preview">
+        <p>
+            {{ getLyrics(song.lyrics) | raw }}
+        </p>
+        <p class="post-meta">Posted on {{ getPostedDate(song.createdAt) }}</p>
+        <p class="post-meta">Viewed {{ song.hit }} times</p>
+    </div>
+
+    <p>
+        <a class="btn btn-primary" href="{{ path('singer_songs', { 'singer_slug' : song.singer.slug }) }}">{{ song.singer.name }} All Songs</a>
+    </p>
+</div>
+
+{% endblock %}

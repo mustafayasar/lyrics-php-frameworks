@@ -5,6 +5,8 @@ namespace App\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 use Doctrine\Common\Collections\Collection;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+
 /**
  * @ORM\Entity(repositoryClass="App\Repository\SingerRepository")
  * @ORM\Table(name="singers")
@@ -51,7 +53,7 @@ class Singer
     private $status;
 
     /**
-     * @ORM\OneToMany(targetEntity="Song", mappedBy="singer", cascade={"remove"}, fetch="EAGER")
+     * @ORM\OneToMany(targetEntity="Song", mappedBy="singer", cascade={"remove"}, fetch="LAZY")
      */
     private $songs;
 

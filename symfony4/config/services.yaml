@@ -27,6 +27,13 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
+    App\Utils\SiteHelper:
+        tags: ['twig.extension']
+
+    App\Event\EntitySubscriber:
+        tags:
+        - { name: doctrine.event_subscriber, connection: default }
+
     admin.singer:
         class: App\Admin\SingerAdmin
         arguments: [~, App\Entity\Singer, ~]

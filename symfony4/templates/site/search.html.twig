@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Search for "{{ q }}"{% endblock %}
+{% block h1 %}Search for "{{ q }}"{% endblock %}
+
+{% block body %}
+<div class="col-lg-8 col-md-10 mx-auto">
+    {% if result|length > 0 %}
+        {% for item in result %}
+            {% if item.type == 'song' %}
+                <div class="post-preview">
+                    <a href="{{ item.url }}" title="{{ item.title }}">
+                        <h2 class="post-title">
+                            {{ item.title }}
+                        </h2>
+                    </a>
+                    <p>
+                        {{ getPreviewLyrics(item.content) | raw }}
+
+                        <a class="more" href="{{ item.url }}" title="{{ item.title }}">Read More <i class="fas fa-angle-double-right"></i></a>
+                    </p>
+                </div>
+            {% elseif item.type == 'singer' %}
+                <div class="post-preview">
+                    <a href="{{ item.url }}" title="{{ item.title }}">
+                        <h2 class="post-title">
+                            {{ item.title }} (Singer)
+                        </h2>
+                    </a>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        <p class="text-danger">There is no result.</p>
+    {% endif %}
+</div>
+{% endblock %}

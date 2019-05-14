@@ -1,16 +1,29 @@
 <?php
 namespace App\Utils;
 
-class SiteHelper
+use Twig\Extension\AbstractExtension;
+use Twig\TwigFilter;
+use Twig\TwigFunction;
+
+class SiteHelper extends AbstractExtension
 {
+    public function getFunctions()
+    {
+        return array(
+            new TwigFunction('getLyrics', array($this, 'getLyrics')),
+            new TwigFunction('getPreviewLyrics', array($this, 'getPreviewLyrics')),
+            new TwigFunction('getPostedDate', array($this, 'getPostedDate')),
+        );
+    }
+
     /**
      * @param $lyrics
      *
      * @return string
      */
-    public static function getPreviewLyrics($lyrics)
+    public function getPreviewLyrics($lyrics)
     {
-        $lyrics     = str_ireplace(['<br/>', '<br>', '<br >'], '<br />', $lyrics);
+        $lyrics     = nl2br($lyrics);
 
         $lyrics_arr = explode('<br />', $lyrics);
 
@@ -20,11 +33,21 @@ class SiteHelper
     }
 
     /**
+     * @param $lyrics
+     *
+     * @return string
+     */
+    public function getLyrics($lyrics)
+    {
+        return nl2br($lyrics);
+    }
+
+    /**
      * @param $timestamp
      *
      * @return string
      */
-    public static function getPostedDate($timestamp)
+    public function getPostedDate($timestamp)
     {
         return date('d/m/Y', $timestamp);
     }

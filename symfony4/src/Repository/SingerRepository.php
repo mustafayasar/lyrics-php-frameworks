@@ -7,6 +7,9 @@ use App\Utils\AdminHelper;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Symfony\Bridge\Doctrine\RegistryInterface;
+use Symfony\Component\Cache\Adapter\RedisAdapter;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * @method Singer|null find($id, $lockMode = null, $lockVersion = null)
@@ -16,9 +19,13 @@ use Symfony\Bridge\Doctrine\RegistryInterface;
  */
 class SingerRepository extends ServiceEntityRepository
 {
-    public function __construct(RegistryInterface $registry)
+    private $cache;
+
+    public function __construct(RegistryInterface $registry, ContainerInterface $container)
     {
         parent::__construct($registry, Singer::class);
+
+        $this->cache = RedisAdapter::createConnection($container->getParameter('redis_dsn'));
     }
 
     /**
@@ -63,8 +70,16 @@ class SingerRepository extends ServiceEntityRepository
 
         return $slug;
     }
+
+
     public function getListWithCache($initial = false, $order = 'name', $limit = 14, $page = 0)
     {
+        $cache_key  = 'singer-list_'.$initial.'_'.$order.'_'.$limit.'_'.$page;
+
+        if ($this->cache->exists($cache_key)) {
+            return unserialize($this->cache->get($cache_key));
+        }
+
         $singers    = $this->createQueryBuilder('s')->andWhere("s.status = 1");
 
         if (!empty($initial)) {
@@ -76,7 +91,11 @@ class SingerRepository extends ServiceEntityRepository
         }
 
         if ($limit === 'get_count') {
-            return $singers->select('COUNT(s.id)')->getQuery()->getSingleScalarResult();
+            $result = $singers->select('COUNT(s.id)')->getQuery()->getSingleScalarResult();
+
+            $this->cache->set($cache_key, serialize($result), Singer::CD_LIST);
+
+            return $result;
         } elseif ($limit > 0) {
             $page   = $page < 2 ? 1 : $page;
             $offset = ($page - 1) * $limit;
@@ -90,18 +109,40 @@ class SingerRepository extends ServiceEntityRepository
             $singers->orderBy("s.slug","ASC");
         }
 
-        return $singers->getQuery()->getResult();
+        $result = $singers->getQuery()->getResult();
+
+        $this->cache->set($cache_key, serialize($result), Singer::CD_LIST);
+
+        return $result;
     }
 
-    /*
-    public function findOneBySomeField($value): ?Singer
+
+    public function findOneBySlugWithCache($slug)
     {
-        return $this->createQueryBuilder('s')
-            ->andWhere('s.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $cache_key  = 'find_singer_by_slug_'.$slug;
+
+        if ($this->cache->exists($cache_key)) {
+            return unserialize($this->cache->get($cache_key));
+        }
+
+        $singer = $this->findOneBy(['slug' => $slug, 'status' => Singer::STATUS_ACTIVE]);
+
+        $this->cache->set($cache_key, serialize($singer), Singer::CD_ITEM);
+
+        return $singer;
     }
-    */
+
+
+    public function plusHit($singer_id)
+    {
+        $em     = $this->getEntityManager();
+
+        $singer = $this->find($singer_id);
+
+        $singer->setHit($singer->getHit() + 1);
+
+        $em->persist($singer);
+
+        $em->flush();
+    }
 }

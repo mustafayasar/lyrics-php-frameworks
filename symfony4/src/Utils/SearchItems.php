@@ -106,6 +106,21 @@ class SearchItems
         }
     }
 
+    public function delete($id)
+    {
+        $params = [
+            'index' => $this->index_name,
+            'type'  => 'items',
+            'id'    => $id
+        ];
+
+        try {
+            return $this->client->delete($params);
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
 
     public function getTotalCount()
     {
@@ -120,6 +135,42 @@ class SearchItems
         ];
 
         return $this->client->count($params)['count'];
+    }
+
+    public function saveItem($id, $type, $url, $title, $content, $status)
+    {
+        if ($type == 'singer') {
+            $elastic_id = 'singer_'.$id;
+        } elseif ($type == 'song') {
+            $elastic_id = 'song_'.$id;
+        } else {
+            return false;
+        }
+
+        $e_item   = [
+            'id'        => $elastic_id,
+            'item_id'   => $id,
+            'type'      => $type,
+            'url'       => $url,
+            'title'     => $title,
+            'content'   => $content,
+            'status'    => $status,
+        ];
+
+        return $this->insertOrUpdate($elastic_id, $e_item);
+    }
+
+    public function deleteItem($id, $type)
+    {
+        if ($type == 'singer') {
+            $elastic_id = 'singer_'.$id;
+        } elseif ($type == 'song') {
+            $elastic_id = 'song_'.$id;
+        } else {
+            return false;
+        }
+
+        return $this->delete($elastic_id);
     }
 
     public function search($q)

@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ singer.name }} Songs{% endblock %}
+{% block h1 %}{{ singer.name }} Songs{% endblock %}
+
+{% block body %}
+
+<div class="col-lg-8 col-md-10 mx-auto">
+
+    {% if songs|length > 0 %}
+        {% for song in songs %}
+            <div class="post-preview">
+                {% set song_url = path('song_view', { 'singer_slug' : song.singer.slug, 'song_slug' : song.slug }) %}
+
+                <a href="{{ song_url }}" title="{{ song.title }} Lyrics - {{ song.singer.name }}">
+                    <h2 class="post-title">
+                        {{ song.title }}
+                    </h2>
+                </a>
+
+                <p>
+                    {{ getPreviewLyrics(song.lyrics) | raw }}
+
+                    <a class="more" href="{{ song_url }}" title="{{ song.title }} Lyrics - {{ song.singer.name }}">Read More <i class="fas fa-angle-double-right"></i></a>
+                </p>
+                <p class="post-meta">Posted on {{ getPostedDate(song.createdAt) }}</p>
+            </div>
+        {% endfor %}
+
+        {% if total_page > 1 %}
+            <div>
+                <ul class="pagination">
+                    {% set x = 0 %}
+
+                    {% for p in 1..total_page %}
+                        {% if x <= 6 and ((page - 3) <= p) %}
+                            <li {% if p == page %} class="active" {% endif %} >
+                                <a href="{{ path('singer_songs', { 'singer_slug': singer.slug, 'page' : p}) }}">{{ p }}</a>
+                            </li>
+
+                            {% set x = x + 1 %}
+                        {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+    {% else %}
+        <p class="text-danger">There is no song.</p>
+    {% endif %}
+</div>
+{% endblock %}

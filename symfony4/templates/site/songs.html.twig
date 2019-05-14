@@ -8,16 +8,16 @@
     <div>
         <ul class="letters">
             {% for key, val in letters %}
-                <li><a href="{{ path('singers', { 'i': key}) }}">{{ val }}</a></li>
+                <li><a href="{{ path('songs', { 'i': key}) }}">{{ val }}</a></li>
             {% endfor %}
         </ul>
     </div>
     <ul class="list-group">
-        {% if singers|length > 0 %}
-            {% for singer in singers %}
+        {% if songs|length > 0 %}
+            {% for song in songs %}
                 <li class="list-group-item">
-                    <a href="{{ path('singer_songs', { 'singer_slug' : singer.slug }) }}"
-                       title="{{ singer.name }} Songs">{{ singer.name }}</a>
+                    <a href="{{ path('song_view', { 'singer_slug' : song.singer.slug, 'song_slug' : song.slug }) }}"
+                       title="{{ song.title }} Lyrics - {{ song.singer.name }}">{{ song.title }} - {{ song.singer.name }}</a>
                 </li>
             {% endfor %}
         {% else %}
@@ -33,7 +33,7 @@
                 {% for p in 1..total_page %}
                     {% if x <= 6 and ((page - 3) <= p) %}
                         <li {% if p == page %} class="active" {% endif %} >
-                            <a href="{{ path('singers', { 'i': i, 'page' : p}) }}">{{ p }}</a>
+                            <a href="{{ path('songs', { 'i': i, 'page' : p}) }}">{{ p }}</a>
                         </li>
 
                         {% set x = x + 1 %}

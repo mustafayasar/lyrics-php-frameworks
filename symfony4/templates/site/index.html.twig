@@ -1,8 +1,27 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}asdas!{% endblock %}
+{% block title %}Lyrics{% endblock %}
+{% block h1 %}Lyrics{% endblock %}
 
 {% block body %}
-    asdasdas
-    das
+    <div class="col-lg-8 col-md-10 mx-auto">
+        {% for song in songs %}
+            <div class="post-preview">
+                {% set song_url = path('song_view', { 'singer_slug' : song.singer.slug, 'song_slug' : song.slug }) %}
+
+                <a href="{{ song_url }}" title="{{ song.title }} Lyrics - {{ song.singer.name }}">
+                    <h2 class="post-title">
+                        {{ song.title }}
+                    </h2>
+                </a>
+
+                <p>
+                    {{ getPreviewLyrics(song.lyrics) | raw }}
+
+                    <a class="more" href="{{ song_url }}" title="{{ song.title }} Lyrics - {{ song.singer.name }}">Read More <i class="fas fa-angle-double-right"></i></a>
+                </p>
+                <p class="post-meta">Posted on {{ getPostedDate(song.createdAt) }}</p>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

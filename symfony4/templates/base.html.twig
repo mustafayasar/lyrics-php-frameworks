@@ -32,16 +32,16 @@
                     <a class="nav-link" href="{{ path('home') }}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('home') }}">Random Lyrics</a>
+                    <a class="nav-link" href="{{ path('random_song') }}">Random Lyrics</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('home') }}">Singers</a>
+                    <a class="nav-link" href="{{ path('singers', { 'i': 'hit'}) }}">Singers</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{{ path('home') }}">Songs</a>
+                    <a class="nav-link" href="{{ path('songs', { 'i': 'hit'}) }}">Songs</a>
                 </li>
             </ul>
-            <form class="form-inline my-2 my-lg-0" action="{{ path('home') }}" method="get">
+            <form class="form-inline my-2 my-lg-0" action="{{ path('search') }}" method="get">
                 <input class="form-control mr-sm-2" name="q" type="text" placeholder="Search" aria-label="Search">
             </form>
         </div>

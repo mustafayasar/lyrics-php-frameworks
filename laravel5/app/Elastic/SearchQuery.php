@@ -41,23 +41,6 @@ class SearchQuery extends AbstractQuery
             $e_item['title']    = $item->title.' - '.$item->singer->name;
             $e_item['content']  = $item->lyrics;
         }
-//
-//        $e_item   = [
-//            'id'        => $elastic_id,
-//            'own_id'    => $own_id,
-//            'type'      => $type,
-//            'status'    => $item['status'],
-//        ];
-//
-//        if ($type == 'singer') {
-//            $e_item['url']      = route('singer_songs', $item['slug']);
-//            $e_item['title']    = $item['name'];
-//            $e_item['content']  = '';
-//        } elseif ($type == 'song') {
-//            $e_item['url']      = route('song_view', [$item['singer']['slug'], $item['slug']]);
-//            $e_item['title']    = $item['title'].' - '.$item['singer']['name'];
-//            $e_item['content']  = $item['lyrics'];
-//        }
 
         $manager    = SearchIndex::getManager();
 

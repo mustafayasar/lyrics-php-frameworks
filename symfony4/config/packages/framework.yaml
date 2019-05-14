@@ -17,3 +17,6 @@ framework:
         log: true
 
     translator: { fallbacks: ['%locale%'] }
+
+parameters:
+    redis_dsn: redis://localhost:6379
