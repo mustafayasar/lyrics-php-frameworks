@@ -67,10 +67,16 @@ final class SingerAdmin extends AbstractAdmin
 
     protected function configureListFields(ListMapper $listMapper)
     {
-        $listMapper->addIdentifier('id');
-        $listMapper->addIdentifier('name');
-        $listMapper->add('slug');
-        $listMapper->add('hit');
-        $listMapper->add('status', 'choice', ['choices' => Singer::$statuses]);
+        $listMapper->addIdentifier('id')
+                ->addIdentifier('name')
+                ->add('slug')
+                ->add('hit')
+                ->add('status', 'choice', ['choices' => Singer::$statuses])
+                ->add('_action', null, [
+                    'actions' => [
+                        'edit' => [],
+                        'delete' => [],
+                    ],
+                ]);
     }
 }

@@ -168,7 +168,6 @@ class SongRepository extends ServiceEntityRepository
     }
 
 
-
     public function plusHit($song_id)
     {
         $em     = $this->getEntityManager();
@@ -181,22 +180,6 @@ class SongRepository extends ServiceEntityRepository
 
         $em->flush();
     }
-
-//    public static function findOneBySlugsWithCache($singer_slug, $song_slug)
-//    {
-//        return Yii::$app->cache->getOrSet('find_song_by_slugs_'.$singer_slug.'_'.$song_slug, function () use ($singer_slug, $song_slug) {
-//
-//            $singer = Singer::findOneBySlugWithCache($singer_slug);
-//
-//            if ($singer) {
-//                return Song::findOne(['singer_id' => $singer->id, 'slug' => $song_slug, 'status' => self::STATUS_ACTIVE]);
-//            }
-//
-//            return false;
-//
-//        }, self::CD_ITEM);
-//    }
-
 
     public function updateSongsStatus($singer_id, $current_status, $new_status)
     {

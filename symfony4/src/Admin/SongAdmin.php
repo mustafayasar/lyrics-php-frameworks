@@ -43,7 +43,7 @@ final class SongAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
-            ->add('singer',EntityType::class,[
+            ->add('singer',EntityType::class, [
                 'class' => Singer::class,
                 'choice_label' => 'name',
                 'choice_value' => 'id',
@@ -70,8 +70,7 @@ final class SongAdmin extends AbstractAdmin
             ->add('id')
             ->add('singer_id')
             ->add('title')
-            ->add('status')
-            ;
+            ->add('status');
     }
 
     protected function configureListFields(ListMapper $listMapper): void
@@ -104,7 +103,6 @@ final class SongAdmin extends AbstractAdmin
             ->add('lyrics')
             ->add('hit')
             ->add('status', 'choice', ['choices' => Song::$statuses])
-            ->add('created_at',  'date', ['format' => 'Y-m-d H:i:s'])
-            ;
+            ->add('created_at',  'date', ['format' => 'Y-m-d H:i:s']);
     }
 }
