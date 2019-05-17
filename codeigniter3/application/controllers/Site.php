@@ -19,6 +19,7 @@ class Site extends CI_Controller
         $this->load->model('song_model');
 
         $this->load->library('pagination');
+        $this->load->library('session');
     }
 
     public function home()
@@ -132,6 +133,12 @@ class Site extends CI_Controller
                     'page_links'    => $this->pagination->create_links()
                 ]);
 
+                if ($this->session->userdata('last_singer') != $singer->id) {
+                    $this->singer_model->plusHit($singer->id);
+                }
+
+                $this->session->set_userdata('last_singer', $singer->id);
+
                 return true;
             }
         }
@@ -151,7 +158,16 @@ class Site extends CI_Controller
             $song   = $this->song_model->findOneBySlugsWithCache($singer_slug, $song_slug);
 
             if ($song) {
+                $song->hit  = $song->hit + 1;
+
                 $this->load->view('song_view', ['song' => $song]);
+
+                if ($this->session->userdata('last_song') != $song->id) {
+                    $this->song_model->plusHit($song->id);
+                    $this->singer_model->plusHit($song->singer_id);
+                }
+
+                $this->session->set_userdata('last_song', $song->id);
 
                 return true;
             }

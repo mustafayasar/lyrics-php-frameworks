@@ -6,7 +6,7 @@ class Singer_model extends CI_Model
     public function __construct()
     {
         $this->load->driver('cache', ['adapter' => 'redis', 'backup' => 'file']);
-        $this->cache->clean();
+//        $this->cache->clean();
         $this->load->database();
     }
 

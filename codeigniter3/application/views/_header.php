@@ -31,9 +31,6 @@
                     <a class="nav-link" href="/">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/random-lyrics">Random Lyrics</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="/singers/hit">Singers</a>
                 </li>
                 <li class="nav-item">

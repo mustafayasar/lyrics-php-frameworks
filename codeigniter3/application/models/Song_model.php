@@ -54,6 +54,10 @@ class Song_model extends CI_Model
 
         if ($pages === 'get_count') {
             $result = $query->get('songs')->num_rows();
+
+            $this->cache->save($cache_key, $result, 360);
+
+            return $result;
         } elseif (is_integer($pages) && $pages > 0) {
             $query->limit($pages);
         } elseif (is_array($pages)) {
