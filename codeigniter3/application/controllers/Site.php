@@ -117,7 +117,7 @@ class Site extends CI_Controller
             if ($singer) {
                 $config['base_url']         = base_url().$singer_slug.'-songs';
                 $config['total_rows']       = $this->song_model->getListWithCache($singer->id, false, 'new', 'get_count');
-                $config['per_page']         = 20;
+                $config['per_page']         = 8;
                 $config['use_page_numbers'] = true;
                 $config["uri_segment"]      = 2;
 
