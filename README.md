@@ -19,7 +19,7 @@ Bu veritabanı dosyasını istediğiniz projede kullanabilirsiniz.
 Projeyi geliştirme amacımı yukarıda belirttim. Bundan dolayı geliştirme esnasında gözden kaçırdığım şeyler olabilir. Bunları yakalaycak olursanız, lütfen issue ile bildiriniz.
 Ayrıca bu repositoryi istediğiniz gibi clone'layabilir, testleri kendiniz yapabilirsiniz. Her framworkun kurulum notlarını aşağıda kendi başlığında bulabilirsiniz.
 
-Projede arama kısmında elasticsearch, cache olarak da redis kullanıldı. Proje gereksinimleri kısaca; Php >=7.1, mysql, redis, elasticsearch (Ben 2.5.3 kullandım fakat istediğiniz versiyonu kullanabilirsiniz, çünkü sadece temel özellikler  kullanıldı.
+Projede arama kısmında elasticsearch, cache olarak da redis kullanıldı. Proje gereksinimleri kısaca; Php >=7.1, mysql, redis, elasticsearch (Ben v2.5.3 kullandım fakat istediğiniz versiyonu kullanabilirsiniz, çünkü sadece temel özellikler  kullanıldı.)
 
 
 #### Framework Puanlama ve Yorumlarım
@@ -170,7 +170,7 @@ Sadece temel sayfaları yaptım, admin paneli, elasticsearch vs. kısımları ya
 
 
 
-#### Projeden bazı ekran görüntüleri
+## Projeden bazı ekran görüntüleri
 
 ![](https://raw.githubusercontent.com/mustafayasar/lyrics-php-frameworks/master/files/lyrics-ss-1.jpg)
 
