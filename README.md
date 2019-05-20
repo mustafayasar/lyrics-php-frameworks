@@ -168,4 +168,16 @@ Sadece temel sayfaları yaptım, admin paneli, elasticsearch vs. kısımları ya
 Önemli bir proje geliştirmek isteyen birine önermem, sadece PHP'de OOP, MVC, framework gibi kavramlara yeni giriş yapan birisi için iyi bir anlama ve inceleme seçeneği olabilir.
 
 
+
+
 #### Projeden bazı ekran görüntüleri
+
+![](https://raw.githubusercontent.com/mustafayasar/lyrics-php-frameworks/master/files/lyrics-ss-1.jpg)
+
+![](https://raw.githubusercontent.com/mustafayasar/lyrics-php-frameworks/master/files/lyrics-ss-2.jpg)
+
+![](https://raw.githubusercontent.com/mustafayasar/lyrics-php-frameworks/master/files/lyrics-ss-3.jpg)
+
+![](https://raw.githubusercontent.com/mustafayasar/lyrics-php-frameworks/master/files/lyrics-ss-4.jpg)
+
+![](https://raw.githubusercontent.com/mustafayasar/lyrics-php-frameworks/master/files/lyrics-ss-5.jpg)
